@@ -1,0 +1,35 @@
+{
+   "manifest_version": 3,
+   "name": "Mistension",
+   "version": "1.0",
+   "description": "Дополнение для тестировщиков МИС",
+   "icons": {
+	   "128": "img/128.png"
+   },
+   "action": {
+        "default_popup": "html/popup.html"
+    },
+    "permissions": ["scripting", "storage", "contextMenus", "activeTab"],
+	"background": {
+		"service_worker": "js/background.js",
+		"type": "module"
+	},
+	"host_permissions": ["https://youtrack.medlinx.online/*", "https://*.medzoom.ru/version"],
+	"content_scripts": [
+		{
+			"matches": ["https://youtrack.medlinx.online/*", "https://*.medzoom.ru/version"],
+			"css": ["lib/bootstrap/css/bootstrap.min.css", "css/notification.css"],
+			"js": ["lib/bootstrap/js/bootstrap.bundle.js", "js/content.js"]
+		}
+	],
+	"web_accessible_resources": [
+		{
+			"resources": ["lib/bootstrap/css/bootstrap.min.css", "css/notification.css", "lib/bootstrap/js/bootstrap.bundle.js", "js/content.js"],
+			"matches": ["https://youtrack.medlinx.online/*"]
+		}
+	],
+	"options_ui": {
+		"page": "html/options.html",
+		"open_in_tab": true
+	}
+}

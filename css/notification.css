@@ -1,0 +1,25 @@
+.notification {
+  visibility: visible;
+  opacity: 1;
+  width: 250px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  font-family: 'Segoe UI';
+  font-weight: 500;
+  font-size: 16px;
+  background-color: Salmon;
+  border: 2px solid Crimson;  
+  border-radius: 5px;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  transition: visibility 0s, opacity 0.5s linear;
+  z-index: 9999;
+}
+
+.notification.hide {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 5s, opacity 5s;
+}

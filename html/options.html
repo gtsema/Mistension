@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  iframe {
+    border: none;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand mb-0 h1" href="#">
+		<img src="../img/128.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+		Mistension
+	</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" target="contentFrame" href="settings.html">Settings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="contentFrame" href="about.html">About</a>
+        </li>
+	  </ul>
+    </div>
+  </div>
+</nav>
+<iframe class="container-fluid" name="contentFrame" style="border: 0; width:100%; height:100%;" src="settings.html"></iframe>
+<script src="../lib/bootstrap/js/bootstrap.bundle.js"></script>
+</body>
+</html>
