@@ -28,7 +28,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 		});
 	});
 	
-	chrome.storage.local.get(['zone'], function (res) {
+	chrome.storage.local.get(['zone'], res => {
 		document.getElementById(res.zone).setAttribute('checked', true);
+	});
+	
+	// Autofill swith
+	let autofillSw = document.getElementById('flexSwitchAutofill');
+	
+	autofillSw.addEventListener('change', async () => {
+		chrome.storage.local.set({'autofill': autofillSw.checked});
+	});
+	
+	chrome.storage.local.get(['autofill'], res => {
+		autofillSw.checked = res.autofill;
 	});
 });

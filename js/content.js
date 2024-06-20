@@ -30,6 +30,12 @@ window.addEventListener('load', function() {
 	});
 });
 
+document.addEventListener('keydown', function(event) {
+  if (event.ctrlKey && event.shiftKey && event.key === 'F') {
+    showToast("ПИСЬКА!");
+  }
+});
+
 function showToast(msg) {
 	let el = document.getElementById('notification');
 	el.innerText = msg;

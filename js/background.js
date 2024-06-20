@@ -7,6 +7,9 @@ chrome.runtime.onInstalled.addListener(() => {
 	// Устанавливаем дефолтное значение зоны
 	chrome.storage.local.set({'zone': 'stab'});
 	
+	// Устанавливаем дефолтное значение автозаполнения
+	chrome.storage.local.set({'autofill': false});
+	
 	constants.SERVICES.forEach((v, k, map) => {
 		// Настройка контекстного меню
 		if(v == 1) {
