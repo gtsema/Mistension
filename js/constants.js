@@ -41,3 +41,7 @@ export const SERVICES = new Map([
   ["Helix Adapter", 0],
   ["P&S Service", 0],
 ]);
+
+export const xpath = new Map([
+  ["stab", "https://stab-clinic.medzoom.ru"]
+]);

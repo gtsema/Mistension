@@ -51,3 +51,11 @@ async function fetchData(url) {
 	chrome.tabs.sendMessage(tab.id, {"msgType": "showToast", "msg": error.message});
   }
 }
+
+chrome.commands.onCommand.addListener((cmd) => {
+	if(cmd === 'autofill') {
+		chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+			chrome.tabs.sendMessage(tabs[0].id, {action: "autofill"});
+		});
+	}
+});

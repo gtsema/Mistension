@@ -1,0 +1,24 @@
+*, *:hover, *:active, *:focus {
+  cursor: var(--custom-cursor) !important;
+}
+
+.confetti {
+  position: fixed;
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+
+@keyframes confettiAnimation {
+  from {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--x-end), var(--y-end));
+    opacity: 0;
+  }
+}
