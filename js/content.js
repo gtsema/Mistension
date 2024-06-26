@@ -1,5 +1,5 @@
 let customCursorEnabled = false;
-const cursor = chrome.runtime.getURL('img/cursor31.png');
+const cursor = chrome.runtime.getURL('img/cursor.png');
 
 const notification = document.createElement('div');
 notification.id = 'notification';
@@ -44,25 +44,18 @@ function showToast(msg) {
 
 document.addEventListener('click', (e) => {
 	if(customCursorEnabled) {
-		for (let i = 0; i < 10; i++) {
-			let confetti = document.createElement('div');
-			confetti.className = 'confetti';
-			document.body.appendChild(confetti);
-
-			let xEnd = 100 - Math.random() * 200;
-			let yEnd = 100 - Math.random() * 200;
-
-			confetti.style.left = e.clientX + 'px';
-			confetti.style.top = e.clientY + 'px';
-			confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`; // Случайный цвет
-			confetti.style.setProperty('--x-end', `${xEnd}px`);
-			confetti.style.setProperty('--y-end', `${yEnd}px`);
-			confetti.style.animation = `confettiAnimation 0.75s forwards`;
-
-			confetti.addEventListener('animationend', () => {
-				confetti.remove();
-			});
-		}
+		getLocators()
+			.then((locators) => {
+				locators.forEach((v, k, map) => {
+					let elem = document.evaluate(k, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+					if(elem === e.target) {
+						showConfetti(e.clientX, e.clientY);
+						e.target.value = v.value;
+						e.target.dispatchEvent(new Event('input', { bubbles: true, cancelable: false }));
+					}
+				});
+			})
+			.catch(err => console.error(err));
 	}
 });
 
@@ -77,3 +70,38 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	}
   }
 });
+
+function showConfetti(x, y) {
+	for (let i = 0; i < 10; i++) {
+			let confetti = document.createElement('div');
+			confetti.className = 'confetti';
+			document.body.appendChild(confetti);
+
+			let xEnd = 100 - Math.random() * 200;
+			let yEnd = 100 - Math.random() * 200;
+
+			confetti.style.left = x + 'px';
+			confetti.style.top = y + 'px';
+			confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+			confetti.style.setProperty('--x-end', `${xEnd}px`);
+			confetti.style.setProperty('--y-end', `${yEnd}px`);
+			confetti.style.animation = `confettiAnimation 0.75s forwards`;
+
+			confetti.addEventListener('animationend', () => {
+				confetti.remove();
+			});
+		}
+}
+
+async function getLocators() {
+	return new Promise((resolve, reject) => {
+		chrome.storage.local.get(['locators'], (result) => {
+			if (result['locators']) {
+				const retrievedMap = new Map(Object.entries(result['locators']));
+				resolve(retrievedMap);
+			} else {
+				reject(new Error('Данных по ключу не найдено.'));
+			}
+		});
+	});
+}

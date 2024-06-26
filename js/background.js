@@ -23,6 +23,30 @@ chrome.runtime.onInstalled.addListener(() => {
 		// Инициализируем бд для страницы options
 		chrome.storage.local.set({[k]: v});
 	});
+	
+	// Инициализация xpath элемента (Форма создания заказа - телефон) для автозаполнения. Для тестирования, после разработки ui - удалить.
+	let elem = {
+		desc: 'Создание заказа. Поиск по телефону',
+		value: '+7 952 265-51-19'
+	};
+	
+	let elem1 = {
+		desc: 'Создание заказа. Номер карты',
+		value: '1234567890'
+	};
+	
+	let elem2 = {
+		desc: 'Создание пациента. Фамилия',
+		value: 'Иванов'
+	};
+	
+	const locators = new Map([
+		["//input[contains(@data-test, 'Телефон')]", elem],
+		["//input[contains(@id, 'card-num')]", elem1],
+		["//input[contains(@id, 'lastName')]", elem2]
+	]);
+	
+	chrome.storage.local.set({'locators': Object.fromEntries(locators)});
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {

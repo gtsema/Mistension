@@ -3,6 +3,7 @@
 }
 
 .confetti {
+  z-index: 9999;
   position: fixed;
   border-radius: 50%;
   width: 5px;

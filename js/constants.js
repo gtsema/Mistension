@@ -25,7 +25,7 @@ export const SERVICES = new Map([
   ["Upselling Service", 0],
   ["PackageCloud Service", 0],
   ["Addresses Service", 0],
-  ["Gateway Service", 0],
+  ["Gateway Service", 1],
   ["Ehr Widget Service", 0],
   ["Locks service", 0],
   ["Ehr Service", 0],
