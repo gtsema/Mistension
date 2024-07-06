@@ -1,4 +1,5 @@
-import * as constants from './constants.js'
+import * as constants from './constants.js';
+import { RandomStringUtils } from './randomStringUtils.js';
 
 chrome.runtime.onInstalled.addListener(() => {
 	// Очищаем локальное хранилище приложения
@@ -27,23 +28,26 @@ chrome.runtime.onInstalled.addListener(() => {
 	// Инициализация xpath элемента (Форма создания заказа - телефон) для автозаполнения. Для тестирования, после разработки ui - удалить.
 	let elem = {
 		desc: 'Создание заказа. Поиск по телефону',
-		value: '+7 952 265-51-19'
+		xpath: '//input[contains(@data-test, "Телефон")]',
+		value: '+7 911 %d3-%d2-%d2'
 	};
 	
 	let elem1 = {
 		desc: 'Создание заказа. Номер карты',
+		xpath: '//input[contains(@id, "card-num")]',
 		value: '1234567890'
 	};
 	
 	let elem2 = {
 		desc: 'Создание пациента. Фамилия',
+		xpath: '//input[contains(@id, "lastName")]',
 		value: 'Иванов'
 	};
 	
 	const locators = new Map([
-		["//input[contains(@data-test, 'Телефон')]", elem],
-		["//input[contains(@id, 'card-num')]", elem1],
-		["//input[contains(@id, 'lastName')]", elem2]
+		[RandomStringUtils.randomAlphanumeric(5), elem],
+		[RandomStringUtils.randomAlphanumeric(5), elem1],
+		[RandomStringUtils.randomAlphanumeric(5), elem2]
 	]);
 	
 	chrome.storage.local.set({'locators': Object.fromEntries(locators)});

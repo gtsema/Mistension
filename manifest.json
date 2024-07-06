@@ -27,13 +27,13 @@
 	"content_scripts": [
 		{
 			"matches": ["https://youtrack.medlinx.online/*", "https://*.medzoom.ru/*"],
-			"css": ["lib/bootstrap/css/bootstrap.min.css", "css/notification.css", "css/content.css"],
+			"css": ["css/notification.css", "css/content.css"],
 			"js": ["lib/bootstrap/js/bootstrap.bundle.js", "js/content.js"]
 		}
 	],
 	"web_accessible_resources": [
 		{
-			"resources": ["lib/bootstrap/css/bootstrap.min.css", "css/notification.css", "css/content.css", "lib/bootstrap/js/bootstrap.bundle.js", "js/content.js", "img/cursor.png"],
+			"resources": ["lib/bootstrap/css/bootstrap.min.css", "css/notification.css", "css/content.css", "lib/bootstrap/js/bootstrap.bundle.js", "js/content.js", "js/randomStringUtils.js", "img/cursor.png"],
 			"matches": ["https://youtrack.medlinx.online/*", "https://*.medzoom.ru/*"]
 		}
 	],
