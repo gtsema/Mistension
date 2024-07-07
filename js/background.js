@@ -25,32 +25,7 @@ chrome.runtime.onInstalled.addListener(() => {
 		chrome.storage.local.set({[k]: v});
 	});
 	
-	// Инициализация xpath элемента (Форма создания заказа - телефон) для автозаполнения. Для тестирования, после разработки ui - удалить.
-	let elem = {
-		desc: 'Создание заказа. Поиск по телефону',
-		xpath: '//input[contains(@data-test, "Телефон")]',
-		value: '+7 911 %d3-%d2-%d2'
-	};
-	
-	let elem1 = {
-		desc: 'Создание заказа. Номер карты',
-		xpath: '//input[contains(@id, "card-num")]',
-		value: '1234567890'
-	};
-	
-	let elem2 = {
-		desc: 'Создание пациента. Фамилия',
-		xpath: '//input[contains(@id, "lastName")]',
-		value: 'Иванов'
-	};
-	
-	const locators = new Map([
-		[RandomStringUtils.randomAlphanumeric(5), elem],
-		[RandomStringUtils.randomAlphanumeric(5), elem1],
-		[RandomStringUtils.randomAlphanumeric(5), elem2]
-	]);
-	
-	chrome.storage.local.set({'locators': Object.fromEntries(locators)});
+	chrome.storage.local.set({'locators': new Map()});
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {

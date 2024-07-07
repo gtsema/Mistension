@@ -1,6 +1,9 @@
 (async () => {
-	const module = await import(chrome.runtime.getURL('js/randomStringUtils.js'));
-	const { RandomStringUtils } = module;
+	const randomStringUtilsModule = await import(chrome.runtime.getURL('js/randomStringUtils.js'));
+	const { RandomStringUtils } = randomStringUtilsModule;
+	
+	const utilsModule = await import(chrome.runtime.getURL('js/utils.js'));
+	const { Utils } = utilsModule;
 
 	let customCursorEnabled = false;
 	const cursor = chrome.runtime.getURL('img/cursor.png');
@@ -48,13 +51,13 @@
 
 	document.addEventListener('click', (e) => {
 		if(customCursorEnabled) {
-			getLocators()
+			Utils.getLocators()
 				.then((locators) => {
 					locators.forEach((v, k, map) => {
 						let elem = document.evaluate(v.xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 						if(elem === e.target) {
 							showConfetti(e.clientX, e.clientY);
-							e.target.value = RandomStringUtils.randomByTemplate(v.value);
+							e.target.value = RandomStringUtils.randomByTemplate(v.value).substring(0, 64);
 							e.target.dispatchEvent(new Event('input', { bubbles: true, cancelable: false }));
 						}
 					});
@@ -97,7 +100,7 @@
 			}
 	}
 
-	async function getLocators() {
+	/* async function getLocators() {
 		return new Promise((resolve, reject) => {
 			chrome.storage.local.get(['locators'], (result) => {
 				if (result['locators']) {
@@ -108,5 +111,5 @@
 				}
 			});
 		});
-	}
+	} */
 })();

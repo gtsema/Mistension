@@ -33,7 +33,7 @@
 	],
 	"web_accessible_resources": [
 		{
-			"resources": ["lib/bootstrap/css/bootstrap.min.css", "css/notification.css", "css/content.css", "lib/bootstrap/js/bootstrap.bundle.js", "js/content.js", "js/randomStringUtils.js", "img/cursor.png"],
+			"resources": ["lib/bootstrap/css/bootstrap.min.css", "css/notification.css", "css/content.css", "lib/bootstrap/js/bootstrap.bundle.js", "js/content.js", "js/utils.js", "js/randomStringUtils.js", "img/cursor.png"],
 			"matches": ["https://youtrack.medlinx.online/*", "https://*.medzoom.ru/*"]
 		}
 	],

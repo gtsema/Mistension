@@ -1,9 +1,10 @@
 import * as constants from './constants.js';
-import { getLocators } from './utils.js';
+import { Utils } from './utils.js';
 import { RandomStringUtils } from './randomStringUtils.js';
+import { FileSaver } from './fileSaver.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-	getLocators().then((locators) => {
+	Utils.getLocators().then((locators) => {
 		locators.forEach((v, k, map) => {
 			let accordionItem = createAccordionItem(k, v.desc, v.xpath, v.value);
 			let accordion = document.getElementById('myAccordion');
@@ -23,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		
 		item.querySelector('.accordion-button').dispatchEvent(new Event('click', { bubbles: true, cancelable: false }));
 	});
+	
+	document.getElementById('importBtn').addEventListener('click', e => importLocators());
+	document.getElementById('exportBtn').addEventListener('click', e => exportLocators());
 });
 
 function createAccordionItem(id, desc, xpath, value) {
@@ -163,9 +167,13 @@ function createAccordionItem(id, desc, xpath, value) {
 }
 
 const removeElement = function(e) {
-	e.target.closest('.accordion-item').remove();
+	e.target.closest('.accordion-item').querySelector('.accordion-button').dispatchEvent(new Event('click', { bubbles: true, cancelable: false }));
+	setTimeout(function(){
+        e.target.closest('.accordion-item').remove();
+   },300);
+	
 	// удаление в бд если он там есть
-	getLocators().then(locators => {
+	Utils.getLocators().then(locators => {
 		locators.delete(e.target.closest('.accordion-item').id);
 		chrome.storage.local.set({'locators': Object.fromEntries(locators)});
 	});
@@ -188,7 +196,7 @@ const setDefaultValueForNewElement = function(e) {
 
 const setDefaultValueForOldElement = function(e) {
 	const accordionItem = e.target.closest('.accordion-item');
-	getLocators().then((locators) => {
+	Utils.getLocators().then((locators) => {
 		if(locators.get(accordionItem.id)) {
 			accordionItem.querySelector('input[aria-describedby^="spanDesc_"]').value = locators.get(accordionItem.id).desc;
 			accordionItem.querySelector('input[aria-describedby^="spanXpath_"]').value = locators.get(accordionItem.id).xpath;
@@ -212,26 +220,18 @@ const saveValues = function(e) {
 	}	
 	
 	// Сохранение в базу
-	getLocators().then(locators => {
+	Utils.getLocators().then(locators => {
 		const update = {
 			desc: inputDesc.value,
 			xpath: inputXpath.value,
 			value: inputValue.value
 		};
 		locators.set(e.target.closest('.accordion-item').id, update);
-		
-		console.log(locators);
-		
 		chrome.storage.local.set({'locators': Object.fromEntries(locators)});
 	});
 	
 	e.target.closest('.accordion-item').querySelector('.header-text').innerHTML = inputDesc.value;
 	e.target.closest('.accordion-item').querySelector('.accordion-button').dispatchEvent(new Event('click', { bubbles: true, cancelable: false }));
-}
-
-function getValueTypeByUi(e) {
-	const valueTextType = e.closest('.accordion-item').querySelector('input[id^="btnGroupInputText"]').checked;
-	return valueTextType ? constants.ValueType.Text : constants.ValueType.Random;
 }
 
 function validateTextLine(e) {
@@ -255,4 +255,58 @@ function validateXpath(e) {
 		e.classList.add('is-invalid');
 		return false;
 	}
+}
+
+async function importLocators() {
+	openFile()
+		.then(files => files[0].getFile())
+		.then(file => file.text())
+		.then(text => JSON.parse(text))
+		.then(obj => validateImport(obj))
+		.then(obj => {
+			Utils.getLocators()
+				.then(locators => {
+					Object.entries(obj).forEach(entry => {
+						locators.set(entry[0], entry[1]);
+					});
+					chrome.storage.local.set({'locators': Object.fromEntries(locators)});
+					document.location.reload();
+				});
+		})
+		.catch(e => console.log(e));
+}
+
+function openFile() {
+	return window.showOpenFilePicker({
+	  types: [{ accept: { "json/*": [".json"] }}],
+	  acceptMultiple: false
+	});
+}
+
+function exportLocators() {
+	Utils.getLocators().then((locators) => {
+		let jsonStr = '';
+		for (const [key, value] of locators) {
+		  jsonStr += `"${key}": ${JSON.stringify(value)},`;
+		}
+		jsonStr = `{${jsonStr}}`.replace(/,}$/, '}');
+		FileSaver.saveAs(jsonStr, 'mistension_locators.json');
+	});
+}
+
+function validateImport(importData) {
+	return new Promise((res, rej) => {
+		if(Object.keys(importData).length === 0) { rej(new Error("Whoops! Файл не прошёл валидацию(")); }
+		
+		Object.values(importData).forEach(v => {
+			if(Object.keys(v).length != 3 ||
+				Object.keys(v)[0] != 'desc' || Object.keys(v)[1] != 'value' || Object.keys(v)[2] != 'xpath' ||
+				Object.values(v)[0].length > 64 || Object.values(v)[1].length > 64 || Object.values(v)[2].length > 64) {
+					
+					rej(new Error("Whoops! Файл не прошёл валидацию("));
+			}
+		});
+		
+		res(importData);
+	});
 }
