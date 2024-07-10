@@ -1,8 +1,8 @@
-(async () => {
-	const randomStringUtilsModule = await import(chrome.runtime.getURL('js/randomStringUtils.js'));
+(() => {
+	const randomStringUtilsModule = import(chrome.runtime.getURL('js/randomStringUtils.js'));
 	const { RandomStringUtils } = randomStringUtilsModule;
 	
-	const utilsModule = await import(chrome.runtime.getURL('js/utils.js'));
+	const utilsModule = import(chrome.runtime.getURL('js/utils.js'));
 	const { Utils } = utilsModule;
 
 	let customCursorEnabled = false;

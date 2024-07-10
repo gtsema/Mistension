@@ -9,7 +9,7 @@
    "action": {
         "default_popup": "html/popup.html"
     },
-    "permissions": ["scripting", "storage", "contextMenus", "activeTab"],
+    "permissions": ["scripting", "storage", "contextMenus", "activeTab", "commands"],
 	"background": {
 		"service_worker": "js/background.js",
 		"type": "module"
