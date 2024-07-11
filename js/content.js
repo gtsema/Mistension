@@ -1,9 +1,9 @@
-(() => {
-	const randomStringUtilsModule = import(chrome.runtime.getURL('js/randomStringUtils.js'));
-	const { RandomStringUtils } = randomStringUtilsModule;
+(async () => {
+	const randomStringUtilsModule = await import(chrome.runtime.getURL('js/randomStringUtils.js'));
+	const { RandomStringUtils } = await randomStringUtilsModule;
 	
-	const utilsModule = import(chrome.runtime.getURL('js/utils.js'));
-	const { Utils } = utilsModule;
+	const utilsModule = await import(chrome.runtime.getURL('js/utils.js'));
+	const { Utils } = await utilsModule;
 
 	let customCursorEnabled = false;
 	const cursor = chrome.runtime.getURL('img/cursor.png');
@@ -99,17 +99,4 @@
 				});
 			}
 	}
-
-	/* async function getLocators() {
-		return new Promise((resolve, reject) => {
-			chrome.storage.local.get(['locators'], (result) => {
-				if (result['locators']) {
-					const retrievedMap = new Map(Object.entries(result['locators']));
-					resolve(retrievedMap);
-				} else {
-					reject(new Error('Данных по ключу не найдено.'));
-				}
-			});
-		});
-	} */
 })();
