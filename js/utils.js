@@ -51,14 +51,14 @@ export class Utils {
 	
 	static validateImport(importData) {
 		return new Promise((res, rej) => {
-			if(Object.keys(importData).length === 0) { rej(new Error("Whoops! Файл не прошёл валидацию(")); }
+			if(Object.keys(importData).length === 0) { rej(new Error("Файл не прошёл валидацию. Ключи не обнаружены.")); }
 			
 			Object.values(importData).forEach(v => {
 				if(Object.keys(v).length != 3 ||
 					Object.keys(v)[0] != 'desc' || Object.keys(v)[1] != 'value' || Object.keys(v)[2] != 'xpath' ||
-					Object.values(v)[0].length > 64 || Object.values(v)[1].length > 64 || Object.values(v)[2].length > 64) {
+					Object.values(v)[0].length > 128 || Object.values(v)[1].length > 128 || Object.values(v)[2].length > 128) {
 						
-						rej(new Error("Whoops! Файл не прошёл валидацию("));
+						rej(new Error("Whoops! Файл не прошёл валидацию(ы"));
 				}
 			});
 			
