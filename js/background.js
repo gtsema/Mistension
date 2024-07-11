@@ -1,5 +1,6 @@
 import * as constants from './constants.js';
 import { RandomStringUtils } from './randomStringUtils.js';
+import { Utils } from './utils.js';
 
 chrome.runtime.onInstalled.addListener(() => {
 	// Очищаем локальное хранилище приложения
@@ -23,6 +24,7 @@ chrome.runtime.onInstalled.addListener(() => {
 		
 		// Инициализируем бд для страницы options
 		chrome.storage.local.set({[k]: v});
+		Utils.importLocatorsAuto();
 	});
 	
 	chrome.storage.local.set({'locators': new Map()});
@@ -31,7 +33,7 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.contextMenus.onClicked.addListener((info, tab) => {
 	if(constants.SERVICES.has(info.menuItemId) && tab.url.startsWith('https://youtrack.medlinx.online')) {
 		chrome.storage.local.get('zone', (res) => {
-			fetchData(constants.ZONES.get(res.zone) + "/version")
+			fetchData(constants.ZONES.get(res.zone) + "/version", tab)
 				.then(res => {
 					let v = res.find(item => item.version.name == info.menuItemId);
 					let msg = v.version.name + ": " + v.version.version;
@@ -41,7 +43,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 	}
 });
 
-async function fetchData(url) {
+async function fetchData(url, tab) {
   try {
     const response = await fetch(url);
     if (!response.ok) {

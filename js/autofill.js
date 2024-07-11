@@ -1,7 +1,5 @@
-import * as constants from './constants.js';
 import { Utils } from './utils.js';
 import { RandomStringUtils } from './randomStringUtils.js';
-import { FileSaver } from './fileSaver.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 	Utils.getLocators().then((locators) => {
@@ -25,8 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		item.querySelector('.accordion-button').dispatchEvent(new Event('click', { bubbles: true, cancelable: false }));
 	});
 	
-	document.getElementById('importBtn').addEventListener('click', e => importLocators());
-	document.getElementById('exportBtn').addEventListener('click', e => exportLocators());
+	document.getElementById('importBtn').addEventListener('click', e => Utils.importLocatorsManual());
+	document.getElementById('exportBtn').addEventListener('click', e => Utils.exportLocators());
 });
 
 function createAccordionItem(id, desc, xpath, value) {
@@ -232,7 +230,7 @@ const saveValues = function(e) {
 	
 	e.target.closest('.accordion-item').querySelector('.header-text').innerHTML = inputDesc.value;
 	e.target.closest('.accordion-item').querySelector('.accordion-button').dispatchEvent(new Event('click', { bubbles: true, cancelable: false }));
-}
+};
 
 function validateTextLine(e) {
 	const value = e.value;
@@ -243,7 +241,7 @@ function validateTextLine(e) {
 		e.classList.add('is-invalid');
 		return false;
 	}
-}
+};
 
 function validateXpath(e) {
 	const xpathEvaluator = new XPathEvaluator();
@@ -255,58 +253,4 @@ function validateXpath(e) {
 		e.classList.add('is-invalid');
 		return false;
 	}
-}
-
-async function importLocators() {
-	openFile()
-		.then(files => files[0].getFile())
-		.then(file => file.text())
-		.then(text => JSON.parse(text))
-		.then(obj => validateImport(obj))
-		.then(obj => {
-			Utils.getLocators()
-				.then(locators => {
-					Object.entries(obj).forEach(entry => {
-						locators.set(entry[0], entry[1]);
-					});
-					chrome.storage.local.set({'locators': Object.fromEntries(locators)});
-					document.location.reload();
-				});
-		})
-		.catch(e => console.log(e));
-}
-
-function openFile() {
-	return window.showOpenFilePicker({
-	  types: [{ accept: { "json/*": [".json"] }}],
-	  acceptMultiple: false
-	});
-}
-
-function exportLocators() {
-	Utils.getLocators().then((locators) => {
-		let jsonStr = '';
-		for (const [key, value] of locators) {
-		  jsonStr += `"${key}": ${JSON.stringify(value)},`;
-		}
-		jsonStr = `{${jsonStr}}`.replace(/,}$/, '}');
-		FileSaver.saveAs(jsonStr, 'mistension_locators.json');
-	});
-}
-
-function validateImport(importData) {
-	return new Promise((res, rej) => {
-		if(Object.keys(importData).length === 0) { rej(new Error("Whoops! Файл не прошёл валидацию(")); }
-		
-		Object.values(importData).forEach(v => {
-			if(Object.keys(v).length != 3 ||
-				Object.keys(v)[0] != 'desc' || Object.keys(v)[1] != 'value' || Object.keys(v)[2] != 'xpath' ||
-				Object.values(v)[0].length > 64 || Object.values(v)[1].length > 64 || Object.values(v)[2].length > 64) {
-					
-					rej(new Error("Whoops! Файл не прошёл валидацию("));
-			}
-		});
-		
-		res(importData);
-	});
-}
+};
