@@ -7,7 +7,7 @@ chrome.runtime.onInstalled.addListener(() => {
 	chrome.storage.local.clear();
 	
 	// Устанавливаем дефолтное значение зоны
-	chrome.storage.local.set({'zone': 'stab'});
+	chrome.storage.local.set({'zone': 'release'});
 	
 	// Устанавливаем дефолтное значение автозаполнения
 	chrome.storage.local.set({'autofill': false});
