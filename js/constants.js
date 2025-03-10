@@ -1,14 +1,10 @@
 export const ZONES = new Map([
-  ["stab", "https://stab-clinic.medzoom.ru"],
+  ["release", "https://release-clinic.medzoom.ru"],
   ["feature01", "https://feature01-clinic.medzoom.ru"],
   ["feature02", "https://feature02-clinic.medzoom.ru"],
   ["feature03", "https://feature03-clinic.medzoom.ru"],
   ["feature04", "https://feature04-clinic.medzoom.ru"],
-  ["feature05", "https://feature05-clinic.medzoom.ru"],
-  ["feature06", "https://feature06-clinic.medzoom.ru"],
-  ["feature07", "https://feature07-clinic.medzoom.ru"],
-  ["feature08", "https://feature08-clinic.medzoom.ru"],
-  ["feature09", "https://feature09-clinic.medzoom.ru"]
+  ["feature05", "https://feature05-clinic.medzoom.ru"]
 ]);
 
 export const SERVICES = new Map([
