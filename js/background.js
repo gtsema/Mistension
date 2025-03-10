@@ -12,8 +12,21 @@ chrome.runtime.onInstalled.addListener(() => {
 	// Устанавливаем дефолтное значение автозаполнения
 	chrome.storage.local.set({'autofill': false});
 	
+	chrome.contextMenus.create({
+        id: "createOrder",
+        title: "Создать заказ",
+        contexts: ["action"]
+    });
+
+	chrome.contextMenus.create({
+		id: "regularOrder",
+		parentId: "createOrder",
+		title: "Создать обычный заказ",
+		contexts: ["action"]
+	});
+	
 	constants.SERVICES.forEach((v, k, map) => {
-		// Настройка контекстного меню
+		// Настройка контекстного меню пкм текстовых полей
 		if(v == 1) {
 			chrome.contextMenus.create({
 				"id": k,
