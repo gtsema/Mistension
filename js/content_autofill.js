@@ -12,11 +12,16 @@
 		if(customCursorEnabled) {
 			Utils.getLocators().then((locators) => {
 				locators.forEach((v, k, map) => {
-					let elem = document.evaluate(v.xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-					if(elem === e.target) {
-						showConfetti(e.clientX, e.clientY);
-						e.target.value = RandomStringUtils.randomByTemplate(v.value).substring(0, 128);
-						e.target.dispatchEvent(new Event('input', { bubbles: true, cancelable: false }));
+					let xpathResult = document.evaluate(v.xpath, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+					// Проверяем, входит ли e.target в найденное множество
+					for (let i = 0; i < xpathResult.snapshotLength; i++) {
+						let node = xpathResult.snapshotItem(i);
+						if (node === e.target) { 
+							showConfetti(e.clientX, e.clientY);
+							e.target.value = RandomStringUtils.randomByTemplate(v.value).substring(0, 128);
+							e.target.dispatchEvent(new Event('input', { bubbles: true, cancelable: false }));
+							break;
+						}
 					}
 				});
 			})
