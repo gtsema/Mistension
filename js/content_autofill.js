@@ -20,6 +20,17 @@
 							showConfetti(e.clientX, e.clientY);
 							e.target.value = RandomStringUtils.randomByTemplate(v.value).substring(0, 128);
 							e.target.dispatchEvent(new Event('input', { bubbles: true, cancelable: false }));
+							
+							setTimeout(() => {
+								let dropdown = e.target.parentElement.querySelector('typeahead-container');
+								
+								if (dropdown) {
+									let items = dropdown.querySelectorAll('button');
+									if (items.length === 1 && items[0].textContent.trim() === e.target.value) {
+										items[0].click();
+									}
+								}
+							}, 200);
 							break;
 						}
 					}
