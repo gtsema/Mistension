@@ -22,10 +22,10 @@
 							e.target.dispatchEvent(new Event('input', { bubbles: true, cancelable: false }));
 							
 							setTimeout(() => {
-								let dropdown = e.target.parentElement.querySelector('typeahead-container');
+								let dropdown = e.target.parentElement.querySelector('[role=listbox]');
 								
 								if (dropdown) {
-									let items = dropdown.querySelectorAll('button');
+									let items = dropdown.querySelectorAll('[role=option]');
 									if (items.length === 1 && items[0].textContent.trim() === e.target.value) {
 										items[0].click();
 									}
