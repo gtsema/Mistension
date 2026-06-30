@@ -6,9 +6,6 @@
    "icons": {
 	   "128": "img/128.png"
    },
-   "action": {
-        "default_popup": "html/popup.html"
-    },
     "permissions": ["scripting", "storage", "contextMenus", "activeTab", "commands"],
 	"background": {
 		"service_worker": "js/background.js",
@@ -23,18 +20,18 @@
 			"description": "Автозаполнение полей"
 		}
 	},
-	"host_permissions": ["https://youtrack.medlinx.online/*", "https://*.medzoom.ru/*"],
+	"host_permissions": ["https://*.medzoom.ru/*"],
 	"content_scripts": [
 		{
-			"matches": ["https://youtrack.medlinx.online/*", "https://*.medzoom.ru/*"],
-			"css": ["css/notification.css", "css/content.css"],
-			"js": ["lib/bootstrap/js/bootstrap.bundle.js", "js/content_autofill.js", "js/content_version.js"]
+			"matches": ["https://*.medzoom.ru/*"],
+			"css": ["css/content.css"],
+			"js": ["lib/bootstrap/js/bootstrap.bundle.js", "js/content_autofill.js"]
 		}
 	],
 	"web_accessible_resources": [
 		{
-			"resources": ["lib/bootstrap/css/bootstrap.min.css", "css/notification.css", "css/content.css", "lib/bootstrap/js/bootstrap.bundle.js", "js/utils.js", "js/randomStringUtils.js", "img/cursor.png"],
-			"matches": ["https://youtrack.medlinx.online/*", "https://*.medzoom.ru/*"]
+			"resources": ["lib/bootstrap/css/bootstrap.min.css", "css/content.css", "lib/bootstrap/js/bootstrap.bundle.js", "js/utils.js", "js/randomStringUtils.js", "img/cursor.png"],
+			"matches": ["https://*.medzoom.ru/*"]
 		}
 	],
 	"options_ui": {
