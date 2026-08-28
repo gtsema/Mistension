@@ -25,7 +25,7 @@
 		{
 			"matches": ["https://*.medzoom.ru/*"],
 			"css": ["css/content.css"],
-			"js": ["lib/bootstrap/js/bootstrap.bundle.js", "js/content_autofill.js"]
+			"js": ["js/content_autofill.js"]
 		}
 	],
 	"web_accessible_resources": [

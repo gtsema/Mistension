@@ -1,1 +1,156 @@
-{"2XzMF": {"desc":"Создание пациента. Телефон","value":"+7 911 %d3-%d2-%d2","xpath":"//*[@id=\"phone\"]"},"4TrxG": {"desc":"Создание пациента. Дата рождения","value":"%date","xpath":"//input[contains(@class, 'datepicker')]"},"B5bXf": {"desc":"Создание заказа. Пациент. Адрес проживания. Населённый пункт","value":"г. Санкт-Петербург","xpath":"//fieldset[descendant::h3[text() = ' Адрес проживания ']]//input[following-sibling::label[text()=' Населенный пункт ']]"},"Bqdes": {"desc":"Создание пациента. Фамилия","value":"Иванов","xpath":"//input[contains(@id, \"lastName\")]"},"DDqVy": {"desc":"Создание заказа. Пациент. Документ. Серия","value":"%d4","xpath":"//input[starts-with(@id, 'series_document')]"},"DRDWX": {"desc":"Создание заказа. Поиск по телефону","value":"+7 911 %d3-%d2-%d2","xpath":"//input[contains(@data-test, \"Телефон\")]"},"DfxxS": {"desc":"Создание заказа. Пациент. Адрес проживания. Улица","value":"пр-кт Металлистов","xpath":"//fieldset[descendant::h3[text() = ' Адрес проживания ']]//input[following-sibling::label[text()=' Улица ']]"},"DwYH1": {"desc":"Создание заказа. Пациент. Почта","value":"%s7@%s5.com","xpath":"//input[following-sibling::label[text()=' E-mail ']]"},"GtNSw": {"desc":"Создание пациента. Имя","value":"%m5","xpath":"//input[contains(@id, \"firstName\")]"},"HNdTe": {"desc":"Создание заказа. Пациент. Адрес проживания. Дом","value":"7","xpath":"//fieldset[descendant::h3[text() = ' Адрес проживания ']]//input[following-sibling::label[text()=' Дом ']]"},"IdUxJ": {"desc":"Создание заказа. Пациент. Документ. Дата выдачи","value":"%date","xpath":"//input[following-sibling::label[text()=' Дата выдачи ']]"},"OkFj2": {"desc":"Создание заказа. Пациент. Документ. Номер","value":"%d6","xpath":"//input[starts-with(@id, 'number_document')]"},"TKm0E": {"desc":"Создание заказа. Пациент. Адрес регистрации. Дом","value":"1","xpath":"//fieldset[descendant::h3[text() = ' Адрес регистрации ']]//input[following-sibling::label[text()=' Дом ']]"},"VeNfT": {"desc":"Создание заказа. Пациент. Документ.","value":"Паспорт гражданина РФ","xpath":"//input[ancestor::*[preceding-sibling::*[text()='Документ']]]"},"d0kRr": {"desc":"Создание заказа. Пациент. Снилс","value":"%snils","xpath":"(//input[following-sibling::label[text()=' Номер ']])[1]"},"e43WK": {"desc":"Создание заказа. Пациент. Адрес регистрации. Квартира","value":"1","xpath":"//fieldset[descendant::h3[text() = ' Адрес регистрации ']]//input[following-sibling::div[text()='Квартира']]"},"f2na8": {"desc":"Создание заказа. Пациент. Документ. Кем выдан","value":"Министерство не твоих собачьих дел","xpath":"//input[parent::div[descendant::div[text()='Кем выдан']]]"},"fGtn5": {"desc":"Создание заказа. Пациент. Адрес регистрации. Населённый пункт","value":"г. Москва","xpath":"//fieldset[descendant::h3[text() = ' Адрес регистрации ']]//input[following-sibling::label[text()=' Населенный пункт ']]"},"hzFDU": {"desc":"Создание заказа. Пациент. Адрес проживания. Регион","value":"г Санкт-Петербург","xpath":"//fieldset[descendant::h3[text() = ' Адрес проживания ']]//input[following-sibling::label[text()=' Регион ']]"},"jiGZF": {"desc":"Создание заказа. Пациент. Адрес проживания. Квартира","value":"15","xpath":"//fieldset[descendant::h3[text() = ' Адрес проживания ']]//input[following-sibling::div[text()='Квартира']]"},"mr7go": {"desc":"Создание заказа. Номер карты","value":"1234567890","xpath":"//input[contains(@id, \"card-num\")]"},"nipCb": {"desc":"Создание заказа. Пациент. Телефон","value":"+7 911 %d3-%d2-%d2","xpath":"//input[following-sibling::label[text()=' Телефон ']]"},"qCoyn": {"desc":"Создание заказа. Услуги. Штрихкоды образцов","value":"%d16","xpath":"//input[ancestor::sample-item]"},"qIe0j": {"desc":"Создание пациента. Отчество","value":"%m5","xpath":"//input[contains(@id, \"middleName\")]"},"uyNnV": {"desc":"Создание заказа. Пациент. Адрес регистрации. Регион","value":"г Москва","xpath":"//fieldset[descendant::h3[text() = ' Адрес регистрации ']]//input[following-sibling::label[text()=' Регион ']]"},"yNZG8": {"desc":"Создание заказа. Пациент. Адрес регистрации. Улица","value":"ул Магаданская","xpath":"//fieldset[descendant::h3[text() = ' Адрес регистрации ']]//input[following-sibling::label[text()=' Улица ']]"}}
+{
+  "div_modal_patient": {
+    "type": "divider",
+    "desc": "Модальное окно: Создание пациента"
+  },
+  "p_lastName": {
+    "desc": "Пациент. Фамилия",
+    "xpath": "input[placeholder=\"Фамилия\"]",
+    "url": "",
+    "value": "Иванов"
+  },
+  "p_firstName": {
+    "desc": "Пациент. Имя",
+    "xpath": "input[placeholder=\"Имя\"]",
+    "url": "",
+    "value": "Иван"
+  },
+  "p_middleName": {
+    "desc": "Пациент. Отчество",
+    "xpath": "input[placeholder=\"Отчество\"]",
+    "url": "",
+    "value": "Иванович"
+  },
+  "p_birthDate": {
+    "desc": "Пациент. Дата рождения",
+    "xpath": "input.datepicker__input, input[placeholder=\"дд.мм.гггг\"]",
+    "url": "",
+    "value": "%date"
+  },
+  "p_phone": {
+    "desc": "Пациент. Телефон",
+    "xpath": "input[placeholder=\"Телефон\"]",
+    "url": "",
+    "value": "+7 911 %d3-%d2-%d2"
+  },
+  "div_contacts": {
+    "type": "divider",
+    "desc": "Карточка пациента: Контакты"
+  },
+  "c_phone": {
+    "desc": "Контакты. Телефон",
+    "xpath": "#telecom-\\[0\\]",
+    "url": "",
+    "value": "+7 911 %d3-%d2-%d2"
+  },
+  "c_email": {
+    "desc": "Контакты. E-mail",
+    "xpath": "#telecom-\\[1\\]",
+    "url": "",
+    "value": "%s7@%s5.com"
+  },
+  "div_snils": {
+    "type": "divider",
+    "desc": "СНИЛС"
+  },
+  "s_snils": {
+    "desc": "СНИЛС. Номер",
+    "xpath": "input[mask=\"000-000-000 00\"]",
+    "url": "",
+    "value": "%snils"
+  },
+  "div_docs": {
+    "type": "divider",
+    "desc": "Документы пациента"
+  },
+  "d_series": {
+    "desc": "Документ. Серия",
+    "xpath": "input[placeholder=\"Серия\"]",
+    "url": "",
+    "value": "%d4"
+  },
+  "d_number": {
+    "desc": "Документ. Номер",
+    "xpath": "input[placeholder=\"Номер\"]",
+    "url": "",
+    "value": "%d6"
+  },
+  "d_date": {
+    "desc": "Документ. Дата выдачи",
+    "xpath": "//fieldset[descendant::*[contains(text(), 'Документ')]]//input[contains(@class, 'datepicker__input')]",
+    "url": "",
+    "value": "%date"
+  },
+  "d_issuer": {
+    "desc": "Документ. Кем выдан",
+    "xpath": "input[placeholder=\"Кем выдан\"]",
+    "url": "",
+    "value": "Отделом УФМС"
+  },
+  "div_address_reg": {
+    "type": "divider",
+    "desc": "Адрес регистрации"
+  },
+  "ar_region": {
+    "desc": "Адрес регистрации. Регион / Населенный пункт",
+    "xpath": "//fieldset[descendant::*[contains(text(), 'Адрес регистрации')]]//input[contains(@class, 'typeahead__input')]",
+    "url": "",
+    "value": "г. Санкт-Петербург"
+  },
+  "ar_street": {
+    "desc": "Адрес регистрации. Улица",
+    "xpath": "//fieldset[descendant::*[contains(text(), 'Адрес регистрации')]]//input[following-sibling::*[contains(text(), 'Улица')]]",
+    "url": "",
+    "value": "пр-кт Металлистов"
+  },
+  "ar_house": {
+    "desc": "Адрес регистрации. Дом",
+    "xpath": "//fieldset[descendant::*[contains(text(), 'Адрес регистрации')]]//input[following-sibling::*[contains(text(), 'Дом')]]",
+    "url": "",
+    "value": "1"
+  },
+  "div_address_live": {
+    "type": "divider",
+    "desc": "Адрес проживания"
+  },
+  "al_region": {
+    "desc": "Адрес проживания. Регион / Населенный пункт",
+    "xpath": "//fieldset[descendant::*[contains(text(), 'Адрес проживания')]]//input[contains(@class, 'typeahead__input')]",
+    "url": "",
+    "value": "г. Санкт-Петербург"
+  },
+  "al_street": {
+    "desc": "Адрес проживания. Улица",
+    "xpath": "//fieldset[descendant::*[contains(text(), 'Адрес проживания')]]//input[following-sibling::*[contains(text(), 'Улица')]]",
+    "url": "",
+    "value": "пр-кт Металлистов"
+  },
+  "al_house": {
+    "desc": "Адрес проживания. Дом",
+    "xpath": "//fieldset[descendant::*[contains(text(), 'Адрес проживания')]]//input[following-sibling::*[contains(text(), 'Дом')]]",
+    "url": "",
+    "value": "7"
+  },
+  "div_order": {
+    "type": "divider",
+    "desc": "Оформление заказа"
+  },
+  "o_search_phone": {
+    "desc": "Поиск по телефону",
+    "xpath": "input[data-test=\"Телефон\"]",
+    "url": "",
+    "value": "+7 911 %d3-%d2-%d2"
+  },
+  "o_card": {
+    "desc": "Номер карты лояльности",
+    "xpath": "#card-num",
+    "url": "",
+    "value": "%d8"
+  },
+  "o_flyer": {
+    "desc": "Номер купона или флаера",
+    "xpath": "input[placeholder=\"Номер флаера, купона или VIP-карты\"]",
+    "url": "",
+    "value": "%d6"
+  }
+}

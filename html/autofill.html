@@ -1,21 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-<link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="../css/autofill.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/autofill.css" rel="stylesheet">
 </head>
-<body>
-<div class="container m-2" id="container">
-<div class="d-flex justify-content-end">
-<button class="btn btn-outline-dark btn-sm my-2 ms-2" type="button" id="importBtn">Импорт</button>
-<button class="btn btn-outline-dark btn-sm my-2 ms-2" type="button" id="exportBtn">Экспорт</button>
-</div>
-<div class="accordion" id="myAccordion"></div>
-<button type="button" class="btn btn-primary mt-3 " id="appendAccordionItemBtn">Добавить</button>
-</div>
-<script src="../lib/bootstrap/js/bootstrap.bundle.js"></script>
-<script type="module" src="../js/autofill.js"></script>
+<body class="bg-light">
+  <div class="container-fluid px-4 py-3 pb-5" id="container" style="max-width: 1100px;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="mb-0 fw-bold text-secondary">Список локаторов</h5>
+      <div>
+        <button class="btn btn-outline-dark btn-sm ms-2" type="button" id="importBtn">Импорт</button>
+        <button class="btn btn-outline-dark btn-sm ms-2" type="button" id="exportBtn">Экспорт</button>
+      </div>
+    </div>
+    <div class="accordion" id="myAccordion"></div>
+    <div class="mt-4 mb-5 pb-5 d-flex align-items-center flex-wrap gap-2">
+      <button type="button" class="btn btn-primary px-3 shadow-sm" id="appendAccordionItemBtn">+ Добавить локатор</button>
+      <button type="button" class="btn btn-outline-secondary px-3 shadow-sm" id="appendDividerBtn">+ Добавить группу / разделитель</button>
+    </div>
+  </div>
+  <script src="../lib/bootstrap/js/bootstrap.bundle.js"></script>
+  <script type="module" src="../js/autofill.js"></script>
 </body>
 </html>

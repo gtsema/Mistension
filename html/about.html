@@ -1,11 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>О программе Mistension</title>
+  <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      color: #212529;
+      font-size: 0.95rem;
+    }
+    .card {
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .badge-code {
+      font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.9em;
+      background-color: #e9ecef;
+      color: #d63384;
+      padding: 0.2em 0.4em;
+      border-radius: 0.25rem;
+    }
+    kbd {
+      background-color: #212529;
+      color: #fff;
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.25rem;
+      font-size: 0.85em;
+    }
+  </style>
 </head>
-<body>
-<img src="../img/128.png" alt="Logo" width="128" height="128" class="d-inline-block align-text-top">
-<p>Рыжий кот сидит в спасательном круге</p>
+<body class="p-3">
+  <div class="container-fluid" style="max-width: 900px;">
+    <!-- Шапка -->
+    <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+      <img src="../img/128.png" alt="Mistension Logo" width="64" height="64" class="me-3">
+      <div>
+        <h4 class="mb-1 fw-bold">Mistension <span class="badge bg-primary text-white fs-6">v1.0</span></h4>
+        <p class="text-muted mb-0">Расширение для автоматизации ввода тестовых данных в формах МИС</p>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <!-- Блок: Быстрый старт -->
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h6 class="card-title fw-bold text-primary mb-3">⚡ Горячие клавиши и управление</h6>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2">
+                <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd> (Mac: <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd>) — включение/выключение режима «Волшебной палочки».
+              </li>
+              <li class="mb-2">
+                <strong>Клик по полю:</strong> когда курсор в виде палочки, клик по настроенному полю автоматически заполняет его сгенерированными данными.
+              </li>
+              <li>
+                <strong>Конфетти:</strong> подтверждает успешное сопоставление поля с локатором.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Блок: Настройки и локаторы -->
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h6 class="card-title fw-bold text-primary mb-3">⚙️ Управление локаторами</h6>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2">
+                <strong>Добавление:</strong> на вкладке «Автозаполнение» укажите название, селектор (XPath или CSS), адреса страниц (опционально) и шаблон данных.
+              </li>
+              <li class="mb-2">
+                <strong>Фильтрация по URL:</strong> можно ограничить работу локатора конкретными страницами (например, <code>/patients/*</code> или <code>https://*.medzoom.ru/*</code>). Пустое поле = работает везде.
+              </li>
+              <li class="mb-2">
+                <strong>Импорт / Экспорт:</strong> выгружайте и загружайте базу локаторов в формате JSON для быстрого обмена с коллегами.
+              </li>
+              <li>
+                <strong>Проверка селекторов:</strong> форма автоматически валидирует как XPath, так и CSS-выражения.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Блок: Таблица шаблонов -->
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h6 class="card-title fw-bold text-primary mb-3">🎲 Поддерживаемые шаблоны генерации данных</h6>
+            <div class="table-responsive">
+              <table class="table table-sm table-bordered align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th style="width: 25%;">Шаблон</th>
+                    <th>Описание</th>
+                    <th style="width: 35%;">Пример результата</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="badge-code">%snils</span></td>
+                    <td>Валидный СНИЛС с расчётом контрольной суммы</td>
+                    <td><code>452-198-320 89</code></td>
+                  </tr>
+                  <tr>
+                    <td><span class="badge-code">%date</span></td>
+                    <td>
+                      Дата рождения (циклическая смена по кликам):
+                      <br><small class="text-muted">1-й клик: 0–18 лет · 2-й клик: ровно 18 лет · 3-й клик: 18–100 лет</small>
+                    </td>
+                    <td><code>14.05.2015</code>, <code>26.08.2008</code>, <code>03.11.1984</code></td>
+                  </tr>
+                  <tr>
+                    <td><span class="badge-code">%d[N]</span></td>
+                    <td>Случайные цифры (длина <code>N</code>)</td>
+                    <td><code>%d4</code> → <code>4921</code> (серия паспорта)</td>
+                  </tr>
+                  <tr>
+                    <td><span class="badge-code">%s[N]</span></td>
+                    <td>Случайные латинские буквы (длина <code>N</code>)</td>
+                    <td><code>%s5</code> → <code>KjWqp</code></td>
+                  </tr>
+                  <tr>
+                    <td><span class="badge-code">%m[N]</span></td>
+                    <td>Случайные цифры и буквы (длина <code>N</code>)</td>
+                    <td><code>%m6</code> → <code>7bX9q1</code></td>
+                  </tr>
+                  <tr>
+                    <td><em>Обычный текст</em></td>
+                    <td>Статическая строка (без изменений)</td>
+                    <td><code>г. Санкт-Петербург</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Подвал -->
+    <div class="mt-4 pt-2 text-center text-muted small">
+      Mistension &bull; Разработано для тестировщиков МИС
+    </div>
+  </div>
 </body>
 </html>

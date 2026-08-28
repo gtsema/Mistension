@@ -1,0 +1,40 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "AGENTS.md",
+    "instructions/*.md",
+    "docs/specs/*.md"
+  ],
+  "mcp": {
+    "chrome-devtools": {
+      "type": "local",
+      "command": ["npx.cmd", "-y", "chrome-devtools-mcp@latest", "--browserUrl", "http://127.0.0.1:9222"],
+      "enabled": true
+    }
+  },
+  "permission": {
+    "skill": {
+      "*": "deny",
+      "locator-design": "allow",
+      "extension-troubleshooting": "allow",
+      "requirements-spec": "allow"
+    }
+  },
+  "agent": {
+    "build": {
+      "permission": {
+        "task": {
+          "*": "deny",
+          "extension-developer": "allow",
+          "qa-automation": "allow"
+        },
+        "bash": {
+          "*": "allow",
+          "git push*": "ask",
+          "rm -rf *": "ask",
+          "Remove-Item -Recurse *": "ask"
+        }
+      }
+    }
+  }
+}

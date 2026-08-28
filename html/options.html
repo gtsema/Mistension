@@ -1,42 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-<link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<style>
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-  iframe {
-    border: none;
-    width: 100%;
-    height: 100%;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Настройки Mistension</title>
+  <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .navbar {
+      flex-shrink: 0;
+    }
+    iframe {
+      border: none;
+      width: 100%;
+      flex-grow: 1;
+      min-height: 0;
+    }
+  </style>
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand mb-0 h1" href="#">
-		<img src="../img/128.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
-		Mistension
-	</a>
-	<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-		<li class="nav-item">
-			<a class="nav-link active fw-bold" target="contentFrame" href="autofill.html">Автозаполнение</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link fw-bold" target="contentFrame" href="about.html">О программе</a>
-		</li>
-	</ul>
-  </div>
-</nav>
-<iframe class="container-fluid" name="contentFrame" style="border: 0; width:100%; height:100%;" src="autofill.html"></iframe>
-<script src="../lib/bootstrap/js/bootstrap.bundle.js"></script>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
+    <div class="container-fluid">
+      <a class="navbar-brand mb-0 h1 d-flex align-items-center" href="#">
+        <img src="../img/128.png" alt="Logo" width="30" height="30" class="d-inline-block me-2">
+        <span>Mistension</span>
+      </a>
+      <ul class="navbar-nav me-auto mb-0" id="navTabs">
+        <li class="nav-item">
+          <a class="nav-link active fw-bold" target="contentFrame" href="autofill.html">Автозаполнение</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-bold" target="contentFrame" href="about.html">О программе</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <iframe name="contentFrame" src="autofill.html"></iframe>
+
+  <script src="../js/options.js"></script>
 </body>
 </html>

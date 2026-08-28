@@ -1,15 +1,16 @@
 import { Utils } from './utils.js';
 
 chrome.runtime.onInstalled.addListener(() => {
-	// Очищаем локальное хранилище приложения
-	chrome.storage.local.clear();
-
-	chrome.storage.local.set({
-		autofill: false,
-		locators: new Map()
+	chrome.storage.local.get(['locators'], (result) => {
+		if (!result['locators'] || Object.keys(result['locators']).length === 0) {
+			chrome.storage.local.set({
+				autofill: false,
+				locators: {}
+			}, () => {
+				Utils.importLocatorsAuto();
+			});
+		}
 	});
-
-	Utils.importLocatorsAuto();
 });
 
 chrome.commands.onCommand.addListener((cmd) => {

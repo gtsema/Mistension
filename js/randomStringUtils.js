@@ -1,5 +1,6 @@
 export class RandomStringUtils {
-	
+	static _dateStep = 0;
+
 	static randomByTemplate(template) {
 		if (template === '%snils') return this._generateSNILS();
 		
@@ -66,10 +67,39 @@ export class RandomStringUtils {
 		return `${snils.substr(0, 3)}-${snils.substr(3, 3)}-${snils.substr(6, 3)} ${checksum.toString().padStart(2, '0')}`;
 	}
 	
+	static _formatDate(d) {
+		const day = String(d.getDate()).padStart(2, '0');
+		const month = String(d.getMonth() + 1).padStart(2, '0');
+		const year = String(d.getFullYear());
+		return `${day}.${month}.${year}`;
+	}
+
 	static _generateDate() {
-		const randomDay = String(Math.floor(Math.random() * 28) + 1).padStart(2, "0");
-		const randomMonth = String(Math.floor(Math.random() * 12) + 1).padStart(2, "0");
-		const randomYear = String(Math.floor(Math.random() * 30) + 1990);
-		return `${randomDay}.${randomMonth}.${randomYear}`;
+		const now = new Date();
+		const currentStep = this._dateStep;
+		this._dateStep = (this._dateStep + 1) % 3;
+
+		if (currentStep === 0) {
+			// Клик 1: Случайный возраст от 0 до 18 лет (несовершеннолетний / ребёнок)
+			const randomYearsAgo = Math.floor(Math.random() * 18); // 0..17 лет
+			const randomMonth = Math.floor(Math.random() * 12);
+			const randomDay = Math.floor(Math.random() * 28) + 1;
+			const birthDate = new Date(now.getFullYear() - randomYearsAgo, randomMonth, randomDay);
+			if (birthDate > now) {
+				birthDate.setTime(now.getTime() - Math.floor(Math.random() * 180 * 24 * 3600 * 1000));
+			}
+			return this._formatDate(birthDate);
+		} else if (currentStep === 1) {
+			// Клик 2: Ровно 18 лет (граница совершеннолетия)
+			const birthDate = new Date(now.getFullYear() - 18, now.getMonth(), now.getDate());
+			return this._formatDate(birthDate);
+		} else {
+			// Клик 3: Случайный возраст от 18 до 100 лет (взрослый / пожилой)
+			const randomYearsAgo = Math.floor(Math.random() * (100 - 18 + 1)) + 18; // 18..100 лет
+			const randomMonth = Math.floor(Math.random() * 12);
+			const randomDay = Math.floor(Math.random() * 28) + 1;
+			const birthDate = new Date(now.getFullYear() - randomYearsAgo, randomMonth, randomDay);
+			return this._formatDate(birthDate);
+		}
 	}
 }
