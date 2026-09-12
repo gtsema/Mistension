@@ -77,3 +77,14 @@
 .locator-divider.drag-over-after {
   box-shadow: 0 2px 0 0 var(--ms-accent);
 }
+
+/* ---------- Подсветка перемещённого элемента ---------- */
+@keyframes ms-flash {
+  0% { background-color: var(--ms-accent-soft); }
+  100% { background-color: transparent; }
+}
+
+.accordion-item.just-moved .accordion-button,
+.locator-divider.just-moved {
+  animation: ms-flash 0.7s ease;
+}

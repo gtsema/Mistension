@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				
 				accordionItem.querySelector('[id^="saveBtn_"]').addEventListener('click', e => saveValues(e));
 				accordionItem.querySelector('[id^="cancelBtn_"]').addEventListener('click', e => setDefaultValueForOldElement(e));
+				accordionItem.querySelector('[id^="copyBtn_"]').addEventListener('click', e => copyLocator(e));
 				accordionItem.querySelector('[id^="deleteBtn_"]').addEventListener('click', e => removeElement(e));
 			}
 		});
@@ -31,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const item = appendAccordionItem();
 		item.querySelector('[id^="saveBtn_"]').addEventListener('click', e => saveValues(e));
 		item.querySelector('[id^="cancelBtn_"]').addEventListener('click', e => setDefaultValueForNewElement(e));
+		item.querySelector('[id^="copyBtn_"]').addEventListener('click', e => copyLocator(e));
 		item.querySelector('[id^="deleteBtn_"]').addEventListener('click', e => removeElement(e));
 		
 		item.querySelector('.accordion-button').dispatchEvent(new Event('click', { bubbles: true, cancelable: false }));
@@ -184,6 +186,7 @@ function createAccordionItem(id, desc, xpath, value, url = '') {
 	const spanValueId = 'spanValue_' + id;
 	const saveBtnId = 'saveBtn_' + id;
 	const cancelBtnId = 'cancelBtn_' + id;
+	const copyBtnId = 'copyBtn_' + id;
 	const deleteBtnId = 'deleteBtn_' + id;
 	
 	let accordionItem = document.createElement('div');
@@ -302,6 +305,13 @@ function createAccordionItem(id, desc, xpath, value, url = '') {
 	deleteBtn.setAttribute('type', 'button');
 	deleteBtn.setAttribute('id', deleteBtnId);
 	deleteBtn.innerText = 'Удалить';
+
+	let copyBtn = document.createElement('button');
+	copyBtn.setAttribute('class', 'btn btn-outline-secondary btn-sm me-2');
+	copyBtn.setAttribute('type', 'button');
+	copyBtn.setAttribute('id', copyBtnId);
+	copyBtn.setAttribute('title', 'Создать несохранённую копию этого локатора');
+	copyBtn.innerText = 'Копировать';
 	
 	btn.appendChild(createDragHandle());
 	btn.appendChild(span);
@@ -326,8 +336,11 @@ function createAccordionItem(id, desc, xpath, value, url = '') {
 	
 	btnLeftHolder.appendChild(saveBtn);
 	btnLeftHolder.appendChild(cancelBtn);
+	let btnRightHolder = document.createElement('div');
+	btnRightHolder.appendChild(copyBtn);
+	btnRightHolder.appendChild(deleteBtn);
 	btnHolder.appendChild(btnLeftHolder);
-	btnHolder.appendChild(deleteBtn);
+	btnHolder.appendChild(btnRightHolder);
 	
 	accordionBody.appendChild(btnHolder);
 	
@@ -362,6 +375,97 @@ const appendAccordionItem = function() {
 	return accordionItem;
 };
 
+/* ---------- Копирование локатора ---------- */
+
+const copyLocator = function(e) {
+	const srcItem = e.target.closest('.accordion-item');
+	if (!srcItem) return;
+
+	const desc = srcItem.querySelector('.needs-validation-desc').value;
+	const xpath = srcItem.querySelector('.needs-validation-xpath').value;
+	const url = srcItem.querySelector('.needs-validation-url').value;
+	const value = srcItem.querySelector('.needs-validation-value').value;
+
+	// 1. Сворачиваем исходный элемент.
+	collapseItem(srcItem);
+
+	// 2. Считаем уникальное имя копии: base_1, base_2, ...
+	const newDesc = nextCopyName(desc);
+
+	// 3. Создаём несохранённую копию (новый случайный id, в storage не пишем).
+	const newId = RandomStringUtils.randomAlphanumeric(5);
+	const newItem = createAccordionItem(newId, newDesc, xpath, value, url);
+	srcItem.parentNode.insertBefore(newItem, srcItem.nextSibling);
+
+	// 4. Подключаем обработчики (как и для нового элемента).
+	newItem.querySelector('[id^="saveBtn_"]').addEventListener('click', e => saveValues(e));
+	newItem.querySelector('[id^="cancelBtn_"]').addEventListener('click', e => setDefaultValueForNewElement(e));
+	newItem.querySelector('[id^="copyBtn_"]').addEventListener('click', e => copyLocator(e));
+	newItem.querySelector('[id^="deleteBtn_"]').addEventListener('click', e => removeElement(e));
+
+	// 5. Раскрываем копию.
+	expandItem(newItem);
+};
+
+function nextCopyName(sourceDesc) {
+	const base = String(sourceDesc || '').replace(/_\d+$/, '').trim() || 'Локатор';
+	const existing = new Set();
+	document.querySelectorAll('#myAccordion .needs-validation-desc').forEach(inp => {
+		existing.add(inp.value.trim());
+	});
+	let n = 1;
+	while (existing.has(`${base}_${n}`)) n++;
+	return `${base}_${n}`;
+}
+
+function expandItem(item) {
+	const btn = item.querySelector('.accordion-button');
+	if (btn && btn.classList.contains('collapsed')) {
+		btn.click();
+	}
+}
+
+function collapseItem(item) {
+	const btn = item.querySelector('.accordion-button');
+	if (btn && !btn.classList.contains('collapsed')) {
+		btn.click();
+	}
+}
+
+/* ---------- Валидация уникальности ---------- */
+
+function validateUnique(item) {
+	const inputDesc = item.querySelector('.needs-validation-desc');
+	const inputXpath = item.querySelector('.needs-validation-xpath');
+	const inputUrl = item.querySelector('.needs-validation-url');
+
+	const desc = inputDesc.value.trim().toLowerCase();
+	const xpath = inputXpath.value.trim().toLowerCase();
+	const url = inputUrl.value.trim().toLowerCase();
+
+	let duplicateDesc = false;
+	let duplicateSelector = false;
+
+	document.querySelectorAll('#myAccordion .accordion-item').forEach(other => {
+		if (other === item) return;
+		const od = other.querySelector('.needs-validation-desc').value.trim().toLowerCase();
+		const ox = other.querySelector('.needs-validation-xpath').value.trim().toLowerCase();
+		const ou = other.querySelector('.needs-validation-url').value.trim().toLowerCase();
+		// Имя должно быть уникальным всегда.
+		if (od === desc) duplicateDesc = true;
+		// Селектор должен быть уникальным в рамках одного url.
+		if (ox === xpath && ou === url) duplicateSelector = true;
+	});
+
+	const isDuplicate = duplicateDesc || duplicateSelector;
+	// Подсвечиваем только поля, нарушившие правило.
+	inputDesc.classList.toggle('is-invalid', duplicateDesc);
+	inputXpath.classList.toggle('is-invalid', duplicateSelector);
+	// url не подсвечиваем сами по себе — он лишь контекст для селектора.
+	inputUrl.classList.toggle('is-invalid', isDuplicate);
+	return !isDuplicate;
+}
+
 const setDefaultValueForNewElement = function(e) {
 	const item = e.target.closest('.accordion-item');
 	item.querySelector('input[aria-describedby^="spanDesc_"]').value = 'Новый элемент';
@@ -395,8 +499,9 @@ const saveValues = function(e) {
 	const isDescValid = validateTextLine(inputDesc);
 	const isSelectorValid = validateSelector(inputXpath);
 	const isValueValid = validateTextLine(inputValue);
+	const isUnique = validateUnique(item);
 
-	if (!isDescValid || !isSelectorValid || !isValueValid) {
+	if (!isDescValid || !isSelectorValid || !isValueValid || !isUnique) {
 		return;
 	}
 	
@@ -491,6 +596,13 @@ function makeDraggable(itemEl) {
 		itemEl.classList.add('dragging');
 		e.dataTransfer.effectAllowed = 'move';
 		e.dataTransfer.setData('text/plain', itemEl.id);
+		// Автосворачивание раскрытого аккордеона на время перетаскивания —
+		// облегчает drag-image. Восстанавливаем в dragend.
+		const btn = itemEl.querySelector('.accordion-button');
+		if (btn && !btn.classList.contains('collapsed')) {
+			itemEl._dragWasExpanded = true;
+			collapseItem(itemEl);
+		}
 	});
 
 	itemEl.addEventListener('dragend', () => {
@@ -499,6 +611,10 @@ function makeDraggable(itemEl) {
 		document
 			.querySelectorAll('#myAccordion .drag-over-before, #myAccordion .drag-over-after')
 			.forEach(el => el.classList.remove('drag-over-before', 'drag-over-after'));
+		if (itemEl._dragWasExpanded) {
+			expandItem(itemEl);
+			itemEl._dragWasExpanded = false;
+		}
 		dragSrcEl = null;
 	});
 
@@ -532,6 +648,9 @@ function makeDraggable(itemEl) {
 		} else {
 			accordion.insertBefore(dragSrcEl, itemEl.nextSibling);
 		}
+		// Кратковременная подсветка перемещённого элемента.
+		dragSrcEl.classList.add('just-moved');
+		setTimeout(() => dragSrcEl.classList.remove('just-moved'), 700);
 		persistOrder();
 	});
 }
