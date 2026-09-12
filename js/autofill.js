@@ -2,6 +2,14 @@ import { Utils } from './utils.js';
 import { RandomStringUtils } from './randomStringUtils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+	// Сброс признака перетаскиваемости при любом отпускании мыши —
+	// чтобы поля ввода внутри элементов корректно выделяли текст.
+	document.addEventListener('mouseup', () => {
+		document
+			.querySelectorAll('#myAccordion .accordion-item[draggable="true"], #myAccordion .locator-divider[draggable="true"]')
+			.forEach(el => { el.draggable = false; });
+	});
+
 	Utils.getLocators().then((locators) => {
 		const accordion = document.getElementById('myAccordion');
 		locators.forEach((v, k, map) => {
@@ -48,6 +56,7 @@ function createDividerItem(id, desc = 'Новая группа') {
 	let titleSpan = document.createElement('div');
 	titleSpan.setAttribute('class', 'divider-title');
 	titleSpan.innerHTML = `<span class="divider-icon">📁</span> <span class="divider-text">${desc}</span>`;
+	titleSpan.insertBefore(createDragHandle(), titleSpan.firstChild);
 
 	let btnGroup = document.createElement('div');
 	btnGroup.setAttribute('class', 'btn-group btn-group-sm');
@@ -141,6 +150,8 @@ function createDividerItem(id, desc = 'Новая группа') {
 			Utils.saveLocators(locators);
 		});
 	});
+
+	makeDraggable(divider);
 
 	return divider;
 }
@@ -292,6 +303,7 @@ function createAccordionItem(id, desc, xpath, value, url = '') {
 	deleteBtn.setAttribute('id', deleteBtnId);
 	deleteBtn.innerText = 'Удалить';
 	
+	btn.appendChild(createDragHandle());
 	btn.appendChild(span);
 	h2.appendChild(btn);
 	
@@ -323,7 +335,9 @@ function createAccordionItem(id, desc, xpath, value, url = '') {
 	
 	accordionItem.appendChild(h2);
 	accordionItem.appendChild(accordionCollapse);
-	
+
+	makeDraggable(accordionItem);
+
 	return accordionItem;
 }
 
@@ -441,4 +455,99 @@ function validateSelector(e) {
 		e.classList.add('is-invalid');
 		return false;
 	}
+}
+
+/* ==========================================================================
+   Drag & Drop: ручное упорядочивание локаторов и разделителей.
+   Элементы становятся перетаскиваемыми только при захвате за ручку (.drag-handle),
+   чтобы не мешать выделению текста в полях и сворачиванию аккордеона.
+   ========================================================================== */
+let dragSrcEl = null;
+
+function createDragHandle() {
+	const handle = document.createElement('span');
+	handle.className = 'drag-handle';
+	handle.setAttribute('title', 'Перетащите, чтобы изменить порядок');
+	handle.setAttribute('aria-hidden', 'true');
+	handle.innerHTML = '⠿';
+	return handle;
+}
+
+function makeDraggable(itemEl) {
+	const handle = itemEl.querySelector('.drag-handle');
+	if (!handle) return;
+
+	// Захват за ручку включает перетаскивание элемента.
+	handle.addEventListener('mousedown', (e) => {
+		itemEl.draggable = true;
+		e.stopPropagation();
+	});
+	handle.addEventListener('mouseup', () => { itemEl.draggable = false; });
+	// Клик по ручке не должен сворачивать/раскрывать аккордеон.
+	handle.addEventListener('click', (e) => { e.stopPropagation(); });
+
+	itemEl.addEventListener('dragstart', (e) => {
+		dragSrcEl = itemEl;
+		itemEl.classList.add('dragging');
+		e.dataTransfer.effectAllowed = 'move';
+		e.dataTransfer.setData('text/plain', itemEl.id);
+	});
+
+	itemEl.addEventListener('dragend', () => {
+		itemEl.classList.remove('dragging');
+		itemEl.draggable = false;
+		document
+			.querySelectorAll('#myAccordion .drag-over-before, #myAccordion .drag-over-after')
+			.forEach(el => el.classList.remove('drag-over-before', 'drag-over-after'));
+		dragSrcEl = null;
+	});
+
+	itemEl.addEventListener('dragover', (e) => {
+		if (!dragSrcEl || dragSrcEl === itemEl) return;
+		e.preventDefault();
+		e.dataTransfer.dropEffect = 'move';
+		const rect = itemEl.getBoundingClientRect();
+		const mid = rect.top + rect.height / 2;
+		itemEl.classList.remove('drag-over-before', 'drag-over-after');
+		itemEl.classList.add(e.clientY < mid ? 'drag-over-before' : 'drag-over-after');
+	});
+
+	itemEl.addEventListener('dragleave', (e) => {
+		if (!e.relatedTarget || !itemEl.contains(e.relatedTarget)) {
+			itemEl.classList.remove('drag-over-before', 'drag-over-after');
+		}
+	});
+
+	itemEl.addEventListener('drop', (e) => {
+		e.preventDefault();
+		e.stopPropagation();
+		itemEl.classList.remove('drag-over-before', 'drag-over-after');
+		if (!dragSrcEl || dragSrcEl === itemEl) return;
+		const rect = itemEl.getBoundingClientRect();
+		const mid = rect.top + rect.height / 2;
+		const insertBefore = e.clientY < mid;
+		const accordion = document.getElementById('myAccordion');
+		if (insertBefore) {
+			accordion.insertBefore(dragSrcEl, itemEl);
+		} else {
+			accordion.insertBefore(dragSrcEl, itemEl.nextSibling);
+		}
+		persistOrder();
+	});
+}
+
+function persistOrder() {
+	Utils.getLocators().then(locators => {
+		const ordered = new Map();
+		// Сохраняем порядок только для элементов, уже присутствующих в хранилище.
+		// Несохранённые новые локаторы сохраняются по кнопке «Сохранить» (как и раньше).
+		document
+			.querySelectorAll('#myAccordion > .accordion-item, #myAccordion > .locator-divider')
+			.forEach(el => {
+				if (locators.has(el.id)) {
+					ordered.set(el.id, locators.get(el.id));
+				}
+			});
+		Utils.saveLocators(ordered);
+	}).catch(err => console.error('Не удалось сохранить порядок локаторов:', err));
 }
