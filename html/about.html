@@ -4,36 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>О программе Mistension</title>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('ms-theme');
+        document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
   <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      background-color: #f8f9fa;
-      color: #212529;
-      font-size: 0.95rem;
-    }
-    .card {
-      border: 1px solid rgba(0,0,0,0.08);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-    }
-    .badge-code {
-      font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.9em;
-      background-color: #e9ecef;
-      color: #d63384;
-      padding: 0.2em 0.4em;
-      border-radius: 0.25rem;
-    }
-    kbd {
-      background-color: #212529;
-      color: #fff;
-      padding: 0.2rem 0.4rem;
-      border-radius: 0.25rem;
-      font-size: 0.85em;
-    }
-  </style>
+  <link href="../css/options.css" rel="stylesheet">
 </head>
-<body class="p-3">
-  <div class="container-fluid" style="max-width: 900px;">
+<body class="p-3 about-shell">
+  <div class="container-fluid" style="max-width: 920px;">
     <!-- Шапка -->
     <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
       <img src="../img/128.png" alt="Mistension Logo" width="64" height="64" class="me-3">
@@ -148,5 +133,6 @@
       Mistension &bull; Разработано для тестировщиков МИС
     </div>
   </div>
+  <script src="../js/theme.js"></script>
 </body>
 </html>

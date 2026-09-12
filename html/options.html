@@ -4,7 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Настройки Mistension</title>
+  <script>
+    // Применяем тему синхронно до рендера, чтобы избежать вспышки (FOUC).
+    (function () {
+      try {
+        var t = localStorage.getItem('ms-theme');
+        document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
   <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/options.css" rel="stylesheet">
   <style>
     html, body {
       height: 100vh;
@@ -27,25 +39,30 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
-    <div class="container-fluid">
-      <a class="navbar-brand mb-0 h1 d-flex align-items-center" href="#">
-        <img src="../img/128.png" alt="Logo" width="30" height="30" class="d-inline-block me-2">
+  <nav class="navbar">
+    <div class="island-inner">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <img src="../img/128.png" alt="Logo" width="22" height="22" class="d-inline-block me-2">
         <span>Mistension</span>
       </a>
-      <ul class="navbar-nav me-auto mb-0" id="navTabs">
+      <span class="island-divider"></span>
+      <ul class="navbar-nav mb-0" id="navTabs">
         <li class="nav-item">
-          <a class="nav-link active fw-bold" target="contentFrame" href="autofill.html">Автозаполнение</a>
+          <a class="nav-link active" target="contentFrame" href="autofill.html">Автозаполнение</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link fw-bold" target="contentFrame" href="about.html">О программе</a>
+          <a class="nav-link" target="contentFrame" href="about.html">О программе</a>
         </li>
       </ul>
+      <span class="island-divider"></span>
+      <button type="button" id="themeToggle" class="theme-toggle"
+              title="Переключить тему" aria-label="Переключить тему">🌙</button>
     </div>
   </nav>
 
   <iframe name="contentFrame" src="autofill.html"></iframe>
 
+  <script src="../js/theme.js"></script>
   <script src="../js/options.js"></script>
 </body>
 </html>

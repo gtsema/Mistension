@@ -6,4 +6,24 @@ document.addEventListener('DOMContentLoaded', () => {
       this.classList.add('active');
     });
   });
+
+  // Кнопка переключения темы оформления
+  const themeToggle = document.getElementById('themeToggle');
+
+  function updateThemeIcon(theme) {
+    if (!themeToggle) return;
+    const isDark = theme === 'dark';
+    themeToggle.textContent = isDark ? '☀️' : '🌙';
+    themeToggle.setAttribute('title', isDark ? 'Светлая тема' : 'Тёмная тема');
+    themeToggle.setAttribute('aria-label', isDark ? 'Светлая тема' : 'Тёмная тема');
+    themeToggle.setAttribute('aria-pressed', String(isDark));
+  }
+
+  if (themeToggle && window.MistensionTheme) {
+    MistensionTheme.get().then(updateThemeIcon);
+    themeToggle.addEventListener('click', () => {
+      MistensionTheme.toggle();
+    });
+    document.addEventListener('theme:changed', (e) => updateThemeIcon(e.detail));
+  }
 });
