@@ -419,11 +419,13 @@
 	chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	  if (request.action === "autofill") {
 		customCursorEnabled = !customCursorEnabled;
-		
+		const root = document.documentElement;
 		if(customCursorEnabled) {
-			document.documentElement.style.setProperty('--custom-cursor', `url(${cursor}), auto`);
+			root.style.setProperty('--custom-cursor', `url(${cursor}), auto`);
+			root.classList.add('custom-cursor-enabled');
 		} else {
-			document.documentElement.style.setProperty('--custom-cursor', `auto`);
+			root.style.setProperty('--custom-cursor', 'auto');
+			root.classList.remove('custom-cursor-enabled');
 		}
 	  }
 	});

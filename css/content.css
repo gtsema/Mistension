@@ -1,4 +1,13 @@
-*, *:hover, *:active, *:focus {
+/* Курсор-залипка применяется только когда расширение активно.
+   Класс .custom-cursor-enabled ставится на <html> только в режиме заполнения,
+   поэтому в покое (расширение загружено, но не активно) CSS ничего не матчит —
+   и universal selector с !important не даёт style-recalc overhead на тяжёлом
+   Angular-приложении. Раньше *,*:hover,*:active,*:focus { cursor: ... !important }
+   пересчитывал cursor для всех ~1000+ элементов при каждом hover/focus. */
+html.custom-cursor-enabled *,
+html.custom-cursor-enabled *:hover,
+html.custom-cursor-enabled *:active,
+html.custom-cursor-enabled *:focus {
   cursor: var(--custom-cursor) !important;
 }
 

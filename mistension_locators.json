@@ -1,156 +1,433 @@
-{
-  "div_modal_patient": {
+[
+  {
+    "id": "div_modal_patient",
     "type": "divider",
     "desc": "Модальное окно: Создание пациента"
   },
-  "p_lastName": {
+  {
+    "id": "p_lastName",
     "desc": "Пациент. Фамилия",
     "xpath": "input[placeholder=\"Фамилия\"]",
     "url": "",
     "value": "Иванов"
   },
-  "p_firstName": {
+  {
+    "id": "LuTgS",
+    "desc": "АМ. Пациент. Фамилия",
+    "xpath": "input[placeholder=\"Фамилия\"]",
+    "url": "https://release-docker-clinic.medzoom.ru/*",
+    "value": "Ивановян"
+  },
+  {
+    "id": "zv4qm",
+    "desc": "КГ. Пациент. Фамилия",
+    "xpath": "input[placeholder=\"Фамилия\"]",
+    "url": "https://stage-docker-clinic.medzoom.ru/*",
+    "value": "Иванолы"
+  },
+  {
+    "id": "p_firstName",
     "desc": "Пациент. Имя",
     "xpath": "input[placeholder=\"Имя\"]",
     "url": "",
-    "value": "Иван"
+    "value": "%s5"
   },
-  "p_middleName": {
+  {
+    "id": "BtLv0",
+    "desc": "АМ. Пациент. Имя",
+    "xpath": "input[placeholder=\"Имя\"]",
+    "url": "https://release-docker-clinic.medzoom.ru/*",
+    "value": "Բդֆը%s5"
+  },
+  {
+    "id": "p_middleName",
     "desc": "Пациент. Отчество",
     "xpath": "input[placeholder=\"Отчество\"]",
     "url": "",
-    "value": "Иванович"
+    "value": "%s4ович"
   },
-  "p_birthDate": {
-    "desc": "Пациент. Дата рождения",
-    "xpath": "input.datepicker__input, input[placeholder=\"дд.мм.гггг\"]",
-    "url": "",
-    "value": "%date"
-  },
-  "p_phone": {
+  {
+    "id": "p_phone",
     "desc": "Пациент. Телефон",
     "xpath": "input[placeholder=\"Телефон\"]",
     "url": "",
     "value": "+7 911 %d3-%d2-%d2"
   },
-  "div_contacts": {
+  {
+    "id": "IeYC6",
+    "desc": "АМ. Пациент. Телефон",
+    "xpath": "input[placeholder=\"Телефон\"]",
+    "url": "https://release-docker-clinic.medzoom.ru/*",
+    "value": "+374 49 %d3-%d3"
+  },
+  {
+    "id": "PHKlS",
+    "desc": "КГ. Пациент. Телефон",
+    "xpath": "input[placeholder=\"Телефон\"]",
+    "url": "https://stage-docker-clinic.medzoom.ru/*",
+    "value": "+996 999-%d3-%d3"
+  },
+  {
+    "id": "p_birthDate",
+    "desc": "Пациент. Дата рождения",
+    "xpath": "input.datepicker__input, input[placeholder=\"дд.мм.гггг\"]",
+    "url": "",
+    "value": "%date"
+  },
+  {
+    "id": "div_contacts",
     "type": "divider",
     "desc": "Карточка пациента: Контакты"
   },
-  "c_phone": {
+  {
+    "id": "c_phone",
     "desc": "Контакты. Телефон",
     "xpath": "#telecom-\\[0\\]",
     "url": "",
     "value": "+7 911 %d3-%d2-%d2"
   },
-  "c_email": {
+  {
+    "id": "gZmVw",
+    "desc": "АМ. Контакты. Телефон",
+    "xpath": "#telecom-\\[0\\]",
+    "url": "https://release-docker-clinic.medzoom.ru/*",
+    "value": "+374 49 %d3-%d3"
+  },
+  {
+    "id": "Lu64U",
+    "desc": "КГ. Контакты. Телефон",
+    "xpath": "#telecom-\\[0\\]",
+    "url": "https://stage-docker-clinic.medzoom.ru/*",
+    "value": "+996 999-%d3-%d3"
+  },
+  {
+    "id": "c_email",
     "desc": "Контакты. E-mail",
     "xpath": "#telecom-\\[1\\]",
     "url": "",
-    "value": "%s7@%s5.com"
+    "value": "%s7@%s5.ru"
   },
-  "div_snils": {
+  {
+    "id": "BjSH3",
+    "desc": "АМ. Контакты. E-mail",
+    "xpath": "#telecom-\\[1\\]",
+    "url": "https://release-docker-clinic.medzoom.ru/*",
+    "value": "%s7@%s5.am"
+  },
+  {
+    "id": "uJ3Mt",
+    "desc": "КГ. Контакты. E-mail",
+    "xpath": "#telecom-\\[1\\]",
+    "url": "https://stage-docker-clinic.medzoom.ru/*",
+    "value": "%s7@%s5.kg"
+  },
+  {
+    "id": "div_snils",
     "type": "divider",
     "desc": "СНИЛС"
   },
-  "s_snils": {
+  {
+    "id": "s_snils",
     "desc": "СНИЛС. Номер",
     "xpath": "input[mask=\"000-000-000 00\"]",
     "url": "",
     "value": "%snils"
   },
-  "div_docs": {
+  {
+    "id": "div_docs",
     "type": "divider",
     "desc": "Документы пациента"
   },
-  "d_series": {
+  {
+    "id": "UvpYP",
+    "desc": "Документ. Тип",
+    "xpath": "person-document-group input[role=\"combobox\"]",
+    "url": "https://release-clinic.medzoom.ru/*",
+    "value": "Паспорт гражданина РФ"
+  },
+  {
+    "id": "d_series",
     "desc": "Документ. Серия",
     "xpath": "input[placeholder=\"Серия\"]",
     "url": "",
     "value": "%d4"
   },
-  "d_number": {
+  {
+    "id": "d_number",
     "desc": "Документ. Номер",
     "xpath": "input[placeholder=\"Номер\"]",
     "url": "",
     "value": "%d6"
   },
-  "d_date": {
+  {
+    "id": "d_date",
     "desc": "Документ. Дата выдачи",
     "xpath": "//fieldset[descendant::*[contains(text(), 'Документ')]]//input[contains(@class, 'datepicker__input')]",
     "url": "",
     "value": "%date"
   },
-  "d_issuer": {
+  {
+    "id": "M7aGt",
+    "desc": "Документ. Код подразделения",
+    "xpath": "//person-document-group//input[contains(@class,'typeahead__input')]",
+    "url": "",
+    "value": "770026"
+  },
+  {
+    "id": "d_issuer",
     "desc": "Документ. Кем выдан",
     "xpath": "input[placeholder=\"Кем выдан\"]",
     "url": "",
-    "value": "Отделом УФМС"
+    "value": "Министерством не твоих собачьих дел"
   },
-  "div_address_reg": {
+  {
+    "id": "div_address_reg",
     "type": "divider",
     "desc": "Адрес регистрации"
   },
-  "ar_region": {
-    "desc": "Адрес регистрации. Регион / Населенный пункт",
-    "xpath": "//fieldset[descendant::*[contains(text(), 'Адрес регистрации')]]//input[contains(@class, 'typeahead__input')]",
+  {
+    "id": "ar_region",
+    "desc": "Адрес регистрации. Регион",
+    "xpath": "//h3[normalize-space()='Адрес регистрации']/ancestor::fieldset[1]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Регион']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
     "url": "",
     "value": "г. Санкт-Петербург"
   },
-  "ar_street": {
+  {
+    "id": "TQQkC",
+    "desc": "Адрес регистрации. Населенный пункт",
+    "xpath": "//h3[normalize-space()='Адрес регистрации']/ancestor::fieldset[1]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Населенный пункт']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
+    "url": "",
+    "value": "г. Санкт-Петербург"
+  },
+  {
+    "id": "ar_street",
     "desc": "Адрес регистрации. Улица",
-    "xpath": "//fieldset[descendant::*[contains(text(), 'Адрес регистрации')]]//input[following-sibling::*[contains(text(), 'Улица')]]",
+    "xpath": "//h3[normalize-space()='Адрес регистрации']/ancestor::fieldset[1]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Улица']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
     "url": "",
     "value": "пр-кт Металлистов"
   },
-  "ar_house": {
+  {
+    "id": "ar_house",
     "desc": "Адрес регистрации. Дом",
-    "xpath": "//fieldset[descendant::*[contains(text(), 'Адрес регистрации')]]//input[following-sibling::*[contains(text(), 'Дом')]]",
+    "xpath": "//h3[normalize-space()='Адрес регистрации']/ancestor::fieldset[1]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Дом']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
     "url": "",
     "value": "1"
   },
-  "div_address_live": {
+  {
+    "id": "JIY1r",
+    "desc": "Адрес регистрации. Квартира",
+    "xpath": "//h3[normalize-space()='Адрес регистрации']/ancestor::fieldset[1]//input[@placeholder='Квартира']",
+    "url": "",
+    "value": "1"
+  },
+  {
+    "id": "div_address_live",
     "type": "divider",
     "desc": "Адрес проживания"
   },
-  "al_region": {
-    "desc": "Адрес проживания. Регион / Населенный пункт",
-    "xpath": "//fieldset[descendant::*[contains(text(), 'Адрес проживания')]]//input[contains(@class, 'typeahead__input')]",
+  {
+    "id": "al_region",
+    "desc": "Адрес проживания. Регион",
+    "xpath": "//h3[normalize-space()='Адрес проживания']/ancestor::fieldset[1]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Регион']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
     "url": "",
-    "value": "г. Санкт-Петербург"
+    "value": "обл. Псковская"
   },
-  "al_street": {
+  {
+    "id": "xV4UE",
+    "desc": "Адрес проживания. Населенный пункт",
+    "xpath": "//h3[normalize-space()='Адрес проживания']/ancestor::fieldset[1]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Населенный пункт']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
+    "url": "",
+    "value": "Пыталово"
+  },
+  {
+    "id": "al_street",
     "desc": "Адрес проживания. Улица",
-    "xpath": "//fieldset[descendant::*[contains(text(), 'Адрес проживания')]]//input[following-sibling::*[contains(text(), 'Улица')]]",
+    "xpath": "//h3[normalize-space()='Адрес проживания']/ancestor::fieldset[1]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Улица']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
     "url": "",
-    "value": "пр-кт Металлистов"
+    "value": "ул. Каупужа"
   },
-  "al_house": {
+  {
+    "id": "al_house",
     "desc": "Адрес проживания. Дом",
-    "xpath": "//fieldset[descendant::*[contains(text(), 'Адрес проживания')]]//input[following-sibling::*[contains(text(), 'Дом')]]",
+    "xpath": "//h3[normalize-space()='Адрес проживания']/ancestor::fieldset[1]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Дом']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
     "url": "",
-    "value": "7"
+    "value": "д. 7"
   },
-  "div_order": {
+  {
+    "id": "BJfi0",
+    "desc": "Адрес проживания. Квартира",
+    "xpath": "//h3[normalize-space()='Адрес проживания']/ancestor::fieldset[1]//input[@placeholder='Квартира']",
+    "url": "",
+    "value": "1"
+  },
+  {
+    "id": "div_order",
     "type": "divider",
     "desc": "Оформление заказа"
   },
-  "o_search_phone": {
-    "desc": "Поиск по телефону",
-    "xpath": "input[data-test=\"Телефон\"]",
-    "url": "",
-    "value": "+7 911 %d3-%d2-%d2"
-  },
-  "o_card": {
+  {
+    "id": "o_card",
     "desc": "Номер карты лояльности",
     "xpath": "#card-num",
     "url": "",
     "value": "%d8"
   },
-  "o_flyer": {
+  {
+    "id": "o_search_phone",
+    "desc": "Поиск по телефону",
+    "xpath": "input[data-test=\"Телефон\"]",
+    "url": "",
+    "value": "+7 911 %d3-%d2-%d2"
+  },
+  {
+    "id": "o_flyer",
     "desc": "Номер купона или флаера",
     "xpath": "input[placeholder=\"Номер флаера, купона или VIP-карты\"]",
     "url": "",
     "value": "%d6"
+  },
+  {
+    "id": "div_TjAmj",
+    "type": "divider",
+    "desc": "Вкладка \"Представитель\""
+  },
+  {
+    "id": "div_Mufc1",
+    "type": "divider",
+    "desc": "Контакты"
+  },
+  {
+    "id": "nXrhT",
+    "desc": "Контакты представителя. Телефон",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Контакты']]//input[contains(@class,'contact-input')]",
+    "url": "",
+    "value": "+7 911 %d3-%d2-%d2"
+  },
+  {
+    "id": "6mT6N",
+    "desc": "Контакты представителя. E-mail",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Контакты']]//input[contains(@class,'form-control')][not(contains(@class,'contact-input'))]",
+    "url": "",
+    "value": "%s7@%s5.ru"
+  },
+  {
+    "id": "div_G9JId",
+    "type": "divider",
+    "desc": "Адрес регистрации"
+  },
+  {
+    "id": "bWsjk",
+    "desc": "Адрес регистрации представителя. Регион",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Адрес регистрации']]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Регион']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
+    "url": "",
+    "value": "Москва"
+  },
+  {
+    "id": "XZmaX",
+    "desc": "Адрес регистрации представителя. Населённый пункт",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Адрес регистрации']]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Населенный пункт']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
+    "url": "",
+    "value": "Москва"
+  },
+  {
+    "id": "ZyE1w",
+    "desc": "Адрес регистрации представителя. Улица",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Адрес регистрации']]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Улица']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
+    "url": "",
+    "value": "Тимуровская"
+  },
+  {
+    "id": "BbvbG",
+    "desc": "Адрес регистрации представителя. Дом",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Адрес регистрации']]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Дом']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
+    "url": "",
+    "value": "11"
+  },
+  {
+    "id": "iif2d",
+    "desc": "Адрес регистрации представителя. Квартира",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Адрес регистрации']]/descendant::input[@placeholder='Квартира']",
+    "url": "",
+    "value": "11"
+  },
+  {
+    "id": "div_s8DkT",
+    "type": "divider",
+    "desc": "Адрес проживания"
+  },
+  {
+    "id": "TBNww",
+    "desc": "Адрес проживания представителя. Регион",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Адрес проживания']]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Регион']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
+    "url": "",
+    "value": "Тульская"
+  },
+  {
+    "id": "BtUSK",
+    "desc": "Адрес проживания представителя. Населённый пункт",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Адрес проживания']]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Населенный пункт']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
+    "url": "",
+    "value": "Тула"
+  },
+  {
+    "id": "7gIVg",
+    "desc": "Адрес проживания представителя. Улица",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Адрес проживания']]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Улица']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
+    "url": "",
+    "value": "Ленина"
+  },
+  {
+    "id": "3hRmi",
+    "desc": "Адрес проживания представителя. Дом",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Адрес проживания']]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Дом']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
+    "url": "",
+    "value": "34"
+  },
+  {
+    "id": "RsJ6j",
+    "desc": "Адрес проживания представителя. Квартира",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Адрес проживания']]/descendant::input[@placeholder='Квартира']",
+    "url": "",
+    "value": "5"
+  },
+  {
+    "id": "div_Nfe6V",
+    "type": "divider",
+    "desc": "Документ"
+  },
+  {
+    "id": "ta8K6",
+    "desc": "Документ представителя. Тип документа",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Документ']]/descendant::input[@role='combobox']",
+    "url": "",
+    "value": "Паспорт гражданина РФ"
+  },
+  {
+    "id": "E9Z2C",
+    "desc": "Документ представителя. Серия",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Документ']]/descendant::input[@placeholder='Серия']",
+    "url": "",
+    "value": "%d4"
+  },
+  {
+    "id": "xTMur",
+    "desc": "Документ представителя. Номер",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Документ']]/descendant::input[@placeholder='Номер']",
+    "url": "",
+    "value": "%d6"
+  },
+  {
+    "id": "PExwk",
+    "desc": "Документ представителя. Дата выдачи",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Документ']]/descendant::input[contains(@class,'datepicker__input')]",
+    "url": "",
+    "value": "%date"
+  },
+  {
+    "id": "ZQ7No",
+    "desc": "Документ представителя. Код подразделения",
+    "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Документ']]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Код подразделения']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
+    "url": "",
+    "value": "77002%d1"
   }
-}
+]
