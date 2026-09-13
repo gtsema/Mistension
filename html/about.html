@@ -4,16 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>О программе Mistension</title>
-  <script>
-    (function () {
-      try {
-        var t = localStorage.getItem('ms-theme');
-        document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
-      } catch (e) {
-        document.documentElement.setAttribute('data-theme', 'light');
-      }
-    })();
-  </script>
+  <script src="../js/themeBoot.js"></script>
   <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../css/options.css" rel="stylesheet">
 </head>
@@ -62,10 +53,19 @@
                 <strong>Фильтрация по URL:</strong> можно ограничить работу локатора конкретными страницами (например, <code>/patients/*</code> или <code>https://*.medzoom.ru/*</code>). Пустое поле = работает везде.
               </li>
               <li class="mb-2">
+                <strong>Приоритет локаторов:</strong> если для одного селектора задано несколько локаторов, то локатор с пустым полем <code>url</code> считается «универсальным» и срабатывает на всех страницах, <em>кроме</em> тех, для которых есть отдельный локатор с тем же селектором и указанным <code>url</code> — на этих страницах приоритет у специфичного локатора.
+              </li>
+              <li class="mb-2">
                 <strong>Импорт / Экспорт:</strong> выгружайте и загружайте базу локаторов в формате JSON для быстрого обмена с коллегами.
               </li>
+              <li class="mb-2">
+                <strong>Drag &amp; Drop:</strong> перетаскивайте локаторы и группы за ручку <code>⠿</code>, чтобы менять порядок. Группы-разделители помогают структурировать длинные списки.
+              </li>
+              <li class="mb-2">
+                <strong>Копирование:</strong> кнопка «Копировать» создаёт дубликат локатора с уникальным именем (<code>name_1</code>, <code>name_2</code> …).
+              </li>
               <li>
-                <strong>Проверка селекторов:</strong> форма автоматически валидирует как XPath, так и CSS-выражения.
+                <strong>Валидация:</strong> поля подсвечиваются с пояснением под ними — обязательные поля, длина до 128 символов, корректность XPath/CSS, а также дубликаты имён и селекторов для одного URL.
               </li>
             </ul>
           </div>

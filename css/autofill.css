@@ -78,6 +78,22 @@
   box-shadow: 0 2px 0 0 var(--ms-accent);
 }
 
+/* ---------- Сообщения валидации под полями ----------
+   Bootstrap показывает .invalid-feedback только при .is-invalid ~ .invalid-feedback.
+   Внутри .input-group (flex) дополнительно задаём порядок, чтобы текст оказывался
+   под полями, и явный цвет для тёмной темы. ---------- */
+#myAccordion .input-group.has-validation > .invalid-feedback {
+  order: 999;
+  font-size: 0.8rem;
+  color: var(--bs-form-invalid-color, #dc3545);
+}
+
+#myAccordion .form-control.is-invalid ~ .invalid-feedback {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
 /* ---------- Подсветка перемещённого элемента ---------- */
 @keyframes ms-flash {
   0% { background-color: var(--ms-accent-soft); }

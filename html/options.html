@@ -4,17 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Настройки Mistension</title>
-  <script>
-    // Применяем тему синхронно до рендера, чтобы избежать вспышки (FOUC).
-    (function () {
-      try {
-        var t = localStorage.getItem('ms-theme');
-        document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
-      } catch (e) {
-        document.documentElement.setAttribute('data-theme', 'light');
-      }
-    })();
-  </script>
+  <script src="../js/themeBoot.js"></script>
   <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../css/options.css" rel="stylesheet">
   <style>

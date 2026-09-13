@@ -1,6 +1,97 @@
 import { Utils } from './utils.js';
 import { RandomStringUtils } from './randomStringUtils.js';
 
+/* ---------- Хелперы валидации: текстовые сообщения под полями ---------- */
+
+function createFeedback() {
+	const fb = document.createElement('div');
+	fb.className = 'invalid-feedback';
+	return fb;
+}
+
+function feedbackOf(input) {
+	return input.parentElement && input.parentElement.querySelector(':scope > .invalid-feedback');
+}
+
+function setInvalid(input, message) {
+	input.classList.add('is-invalid');
+	const fb = feedbackOf(input);
+	if (fb && message) fb.textContent = message;
+}
+
+function setValid(input) {
+	input.classList.remove('is-invalid');
+	const fb = feedbackOf(input);
+	if (fb) fb.removeAttribute('data-unique-error');
+}
+
+// Валидация уникальности использует отдельный маркер, чтобы можно было
+// точечно снимать признак дубликата, не затирая сообщения других валидаторов
+// (обязательное поле, неверный селектор и т. п.).
+function setInvalidUnique(input, message) {
+	input.classList.add('is-invalid');
+	const fb = feedbackOf(input);
+	if (fb) {
+		fb.textContent = message;
+		fb.setAttribute('data-unique-error', '1');
+	}
+}
+
+function clearUnique(input) {
+	const fb = feedbackOf(input);
+	if (fb && fb.hasAttribute('data-unique-error')) {
+		fb.removeAttribute('data-unique-error');
+		input.classList.remove('is-invalid');
+	}
+}
+
+// Пересчёт признаков уникальности по всем локаторам — вызывается при любом
+// изменении полей name / selector / url, чтобы своевременно снимать
+// устаревшие сообщения о дубликатах с соседних элементов.
+function refreshUnique() {
+	document.querySelectorAll('#myAccordion .accordion-item').forEach(item => {
+		const inputDesc = item.querySelector('.needs-validation-desc');
+		const inputXpath = item.querySelector('.needs-validation-xpath');
+		const inputUrl = item.querySelector('.needs-validation-url');
+		if (!inputDesc || !inputXpath) return;
+
+		const desc = inputDesc.value.trim().toLowerCase();
+		const xpath = inputXpath.value.trim().toLowerCase();
+		const url = (inputUrl ? inputUrl.value : '').trim().toLowerCase();
+
+		let duplicateDesc = false;
+		let duplicateSelector = false;
+
+		if (desc) {
+			document.querySelectorAll('#myAccordion .accordion-item').forEach(other => {
+				if (other === item) return;
+				const od = other.querySelector('.needs-validation-desc');
+				if (od && od.value.trim().toLowerCase() === desc) duplicateDesc = true;
+			});
+		}
+		if (xpath) {
+			document.querySelectorAll('#myAccordion .accordion-item').forEach(other => {
+				if (other === item) return;
+				const ox = other.querySelector('.needs-validation-xpath');
+				const ou = other.querySelector('.needs-validation-url');
+				if (ox && ox.value.trim().toLowerCase() === xpath
+					&& (ou ? ou.value : '').trim().toLowerCase() === url) duplicateSelector = true;
+			});
+		}
+
+		if (duplicateDesc) setInvalidUnique(inputDesc, 'Такое имя уже используется');
+		else clearUnique(inputDesc);
+		if (duplicateSelector) setInvalidUnique(inputXpath, 'Селектор уже используется для этого URL');
+		else clearUnique(inputXpath);
+	});
+}
+
+// Снять все признаки валидации с элемента (используется при отмене).
+function clearValidation(item) {
+	item.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+	item.querySelectorAll('.invalid-feedback[data-unique-error]').forEach(fb => fb.removeAttribute('data-unique-error'));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 	// Сброс признака перетаскиваемости при любом отпускании мыши —
 	// чтобы поля ввода внутри элементов корректно выделяли текст.
@@ -220,7 +311,7 @@ function createAccordionItem(id, desc, xpath, value, url = '') {
 	
 	// 1. Поле name
 	let inputGroupDesc = document.createElement('div');
-	inputGroupDesc.setAttribute('class', 'input-group input-group-sm mb-3');
+	inputGroupDesc.setAttribute('class', 'input-group input-group-sm mb-3 has-validation');
 	
 	let spanDesc = document.createElement('span');
 	spanDesc.setAttribute('class', 'input-group-text');
@@ -236,7 +327,7 @@ function createAccordionItem(id, desc, xpath, value, url = '') {
 	
 	// 2. Поле selector (xpath / css)
 	let inputGroupXpath = document.createElement('div');
-	inputGroupXpath.setAttribute('class', 'input-group input-group-sm mb-3');
+	inputGroupXpath.setAttribute('class', 'input-group input-group-sm mb-3 has-validation');
 	
 	let spanXpath = document.createElement('span');
 	spanXpath.setAttribute('class', 'input-group-text');
@@ -268,7 +359,7 @@ function createAccordionItem(id, desc, xpath, value, url = '') {
 
 	// 4. Поле value
 	let inputGroupValue = document.createElement('div');
-	inputGroupValue.setAttribute('class', 'input-group input-group-sm mb-3');
+	inputGroupValue.setAttribute('class', 'input-group input-group-sm mb-3 has-validation');
 	
 	let spanValue = document.createElement('span');
 	spanValue.setAttribute('class', 'input-group-text');
@@ -319,16 +410,24 @@ function createAccordionItem(id, desc, xpath, value, url = '') {
 	
 	inputGroupDesc.appendChild(spanDesc);
 	inputGroupDesc.appendChild(inputDesc);
+	inputGroupDesc.appendChild(createFeedback());
 
 	inputGroupXpath.appendChild(spanXpath);
 	inputGroupXpath.appendChild(inputXpath);
+	inputGroupXpath.appendChild(createFeedback());
 
 	inputGroupUrl.appendChild(spanUrl);
 	inputGroupUrl.appendChild(inputUrl);
 
 	inputGroupValue.appendChild(spanValue);
 	inputGroupValue.appendChild(inputValue);
-	
+	inputGroupValue.appendChild(createFeedback());
+
+	// Live-валидация: сообщения под полями появляются/снимаются при вводе.
+	inputDesc.addEventListener('input', () => { validateTextLine(inputDesc); refreshUnique(); });
+	inputXpath.addEventListener('input', () => { validateSelector(inputXpath); refreshUnique(); });
+	if (inputUrl) inputUrl.addEventListener('input', () => refreshUnique());
+	inputValue.addEventListener('input', () => validateTextLine(inputValue));
 	accordionBody.appendChild(inputGroupDesc);
 	accordionBody.appendChild(inputGroupXpath);
 	accordionBody.appendChild(inputGroupUrl);
@@ -432,7 +531,13 @@ function collapseItem(item) {
 	}
 }
 
-/* ---------- Валидация уникальности ---------- */
+/* ---------- Валидация уникальности ----------
+   Проверяет только дубликаты name и пары (selector, url) по всему списку.
+   Базовые проверки (обязательное поле, длина, формат селектора) выполняют
+   validateTextLine / validateSelector; здесь мы лишь ставим/снимаем признак
+   дубликата через setInvalidUnique / clearUnique, чтобы не затирать чужие
+   сообщения. Актуализацией флагов по всем элементам занимается refreshUnique().
+   ---------- */
 
 function validateUnique(item) {
 	const inputDesc = item.querySelector('.needs-validation-desc');
@@ -441,29 +546,34 @@ function validateUnique(item) {
 
 	const desc = inputDesc.value.trim().toLowerCase();
 	const xpath = inputXpath.value.trim().toLowerCase();
-	const url = inputUrl.value.trim().toLowerCase();
+	const url = (inputUrl ? inputUrl.value : '').trim().toLowerCase();
 
 	let duplicateDesc = false;
 	let duplicateSelector = false;
 
-	document.querySelectorAll('#myAccordion .accordion-item').forEach(other => {
-		if (other === item) return;
-		const od = other.querySelector('.needs-validation-desc').value.trim().toLowerCase();
-		const ox = other.querySelector('.needs-validation-xpath').value.trim().toLowerCase();
-		const ou = other.querySelector('.needs-validation-url').value.trim().toLowerCase();
-		// Имя должно быть уникальным всегда.
-		if (od === desc) duplicateDesc = true;
-		// Селектор должен быть уникальным в рамках одного url.
-		if (ox === xpath && ou === url) duplicateSelector = true;
-	});
+	if (desc) {
+		document.querySelectorAll('#myAccordion .accordion-item').forEach(other => {
+			if (other === item) return;
+			const od = other.querySelector('.needs-validation-desc');
+			if (od && od.value.trim().toLowerCase() === desc) duplicateDesc = true;
+		});
+	}
+	if (xpath) {
+		document.querySelectorAll('#myAccordion .accordion-item').forEach(other => {
+			if (other === item) return;
+			const ox = other.querySelector('.needs-validation-xpath');
+			const ou = other.querySelector('.needs-validation-url');
+			if (ox && ox.value.trim().toLowerCase() === xpath
+				&& (ou ? ou.value : '').trim().toLowerCase() === url) duplicateSelector = true;
+		});
+	}
 
-	const isDuplicate = duplicateDesc || duplicateSelector;
-	// Подсвечиваем только поля, нарушившие правило.
-	inputDesc.classList.toggle('is-invalid', duplicateDesc);
-	inputXpath.classList.toggle('is-invalid', duplicateSelector);
-	// url не подсвечиваем сами по себе — он лишь контекст для селектора.
-	inputUrl.classList.toggle('is-invalid', isDuplicate);
-	return !isDuplicate;
+	if (duplicateDesc) setInvalidUnique(inputDesc, 'Такое имя уже используется');
+	else clearUnique(inputDesc);
+	if (duplicateSelector) setInvalidUnique(inputXpath, 'Селектор уже используется для этого URL');
+	else clearUnique(inputXpath);
+
+	return !(duplicateDesc || duplicateSelector);
 }
 
 const setDefaultValueForNewElement = function(e) {
@@ -472,6 +582,7 @@ const setDefaultValueForNewElement = function(e) {
 	item.querySelector('input[aria-describedby^="spanXpath_"]').value = '';
 	item.querySelector('input[aria-describedby^="spanUrl_"]').value = '';
 	item.querySelector('input[aria-describedby^="spanValue_"]').value = '';
+	clearValidation(item);
 };
 
 const setDefaultValueForOldElement = function(e) {
@@ -486,6 +597,7 @@ const setDefaultValueForOldElement = function(e) {
 		} else {
 			setDefaultValueForNewElement(e);
 		}
+		clearValidation(accordionItem);
 	}).catch(err => console.error(err));
 };
 
@@ -522,19 +634,22 @@ const saveValues = function(e) {
 
 function validateTextLine(e) {
 	const value = e.value.trim();
-	if(value.length > 0 && value.length <= 128) {
-		e.classList.remove('is-invalid');
-		return true;
-	} else {
-		e.classList.add('is-invalid');
+	if (value.length === 0) {
+		setInvalid(e, 'Поле обязательно для заполнения');
 		return false;
 	}
+	if (value.length > 128) {
+		setInvalid(e, 'Не более 128 символов');
+		return false;
+	}
+	setValid(e);
+	return true;
 }
 
 function validateSelector(e) {
 	const value = e.value.trim();
 	if (!value) {
-		e.classList.add('is-invalid');
+		setInvalid(e, 'Поле обязательно для заполнения');
 		return false;
 	}
 
@@ -554,12 +669,11 @@ function validateSelector(e) {
 	} catch (err) {}
 
 	if (validCss || validXpath) {
-		e.classList.remove('is-invalid');
+		setValid(e);
 		return true;
-	} else {
-		e.classList.add('is-invalid');
-		return false;
 	}
+	setInvalid(e, 'Неверный CSS или XPath селектор');
+	return false;
 }
 
 /* ==========================================================================
@@ -576,6 +690,26 @@ function createDragHandle() {
 	handle.setAttribute('aria-hidden', 'true');
 	handle.innerHTML = '⠿';
 	return handle;
+}
+
+// Создаёт компактный клон для drag-image: для аккордеона — только шапка,
+// для разделителя — весь элемент. Клон временно помещается в DOM за экраном
+// и удаляется сразу после того, как браузер сделает снимок.
+function buildDragGhost(itemEl) {
+	const source = itemEl.classList.contains('locator-divider')
+		? itemEl
+		: (itemEl.querySelector('.accordion-header') || itemEl);
+	const ghost = source.cloneNode(true);
+	ghost.style.position = 'fixed';
+	ghost.style.top = '-1000px';
+	ghost.style.left = '-1000px';
+	ghost.style.width = source.offsetWidth + 'px';
+	ghost.style.margin = '0';
+	ghost.style.pointerEvents = 'none';
+	ghost.style.zIndex = '-1';
+	document.body.appendChild(ghost);
+	requestAnimationFrame(() => ghost.remove());
+	return ghost;
 }
 
 function makeDraggable(itemEl) {
@@ -596,13 +730,10 @@ function makeDraggable(itemEl) {
 		itemEl.classList.add('dragging');
 		e.dataTransfer.effectAllowed = 'move';
 		e.dataTransfer.setData('text/plain', itemEl.id);
-		// Автосворачивание раскрытого аккордеона на время перетаскивания —
-		// облегчает drag-image. Восстанавливаем в dragend.
-		const btn = itemEl.querySelector('.accordion-button');
-		if (btn && !btn.classList.contains('collapsed')) {
-			itemEl._dragWasExpanded = true;
-			collapseItem(itemEl);
-		}
+		// Компактный drag-image: только шапка аккордеона (или весь разделитель),
+		// чтобы «призрак» не содержал развёрнутое тело элемента.
+		const ghost = buildDragGhost(itemEl);
+		if (ghost) e.dataTransfer.setDragImage(ghost, 12, 12);
 	});
 
 	itemEl.addEventListener('dragend', () => {
@@ -611,10 +742,6 @@ function makeDraggable(itemEl) {
 		document
 			.querySelectorAll('#myAccordion .drag-over-before, #myAccordion .drag-over-after')
 			.forEach(el => el.classList.remove('drag-over-before', 'drag-over-after'));
-		if (itemEl._dragWasExpanded) {
-			expandItem(itemEl);
-			itemEl._dragWasExpanded = false;
-		}
 		dragSrcEl = null;
 	});
 

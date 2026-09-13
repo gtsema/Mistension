@@ -161,23 +161,30 @@ export class Utils {
 	
 	static exportLocators() {
 		Utils.getLocators().then((locators) => {
-			const obj = {};
+			// Экспортируем упорядоченным массивом, а не объектом.
+			// Порядок ключей JSON-объекта не гарантирован спецификацией и может
+			// нарушаться движком (V8 сортирует числоподобные ключи), из-за чего
+			// после импорта разделители и локаторы вставали не в том порядке.
+			// Массив сохраняет порядок 100% надёжно. Импорт поддерживает оба формата.
+			const arr = [];
 			for (const [key, value] of locators) {
 				if (value.type === 'divider') {
-					obj[key] = {
+					arr.push({
+						id: key,
 						type: 'divider',
 						desc: value.desc || 'Разделитель'
-					};
+					});
 				} else {
-					obj[key] = {
+					arr.push({
+						id: key,
 						desc: value.desc || '',
 						xpath: value.xpath || value.selector || '',
 						url: value.url || '',
 						value: value.value || ''
-					};
+					});
 				}
 			}
-			const jsonStr = JSON.stringify(obj, null, 2);
+			const jsonStr = JSON.stringify(arr, null, 2);
 			this.saveAs(jsonStr, 'mistension_locators.json');
 		});
 	};
