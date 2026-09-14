@@ -82,42 +82,42 @@
   {
     "id": "c_phone",
     "desc": "Контакты. Телефон",
-    "xpath": "#telecom-\\[0\\]",
+    "xpath": "//input[following-sibling::label[normalize-space(text()) = 'Телефон']]",
     "url": "",
     "value": "+7 911 %d3-%d2-%d2"
   },
   {
     "id": "gZmVw",
     "desc": "АМ. Контакты. Телефон",
-    "xpath": "#telecom-\\[0\\]",
+    "xpath": "//input[following-sibling::label[normalize-space(text()) = 'Телефон']]",
     "url": "https://release-docker-clinic.medzoom.ru/*",
     "value": "+374 49 %d3-%d3"
   },
   {
     "id": "Lu64U",
     "desc": "КГ. Контакты. Телефон",
-    "xpath": "#telecom-\\[0\\]",
+    "xpath": "//input[following-sibling::label[normalize-space(text()) = 'Телефон']]",
     "url": "https://stage-docker-clinic.medzoom.ru/*",
     "value": "+996 999-%d3-%d3"
   },
   {
     "id": "c_email",
     "desc": "Контакты. E-mail",
-    "xpath": "#telecom-\\[1\\]",
+    "xpath": "//input[following-sibling::label[normalize-space(text()) = 'E-mail']]",
     "url": "",
     "value": "%s7@%s5.ru"
   },
   {
     "id": "BjSH3",
     "desc": "АМ. Контакты. E-mail",
-    "xpath": "#telecom-\\[1\\]",
+    "xpath": "//input[following-sibling::label[normalize-space(text()) = 'E-mail']]",
     "url": "https://release-docker-clinic.medzoom.ru/*",
     "value": "%s7@%s5.am"
   },
   {
     "id": "uJ3Mt",
     "desc": "КГ. Контакты. E-mail",
-    "xpath": "#telecom-\\[1\\]",
+    "xpath": "//input[following-sibling::label[normalize-space(text()) = 'E-mail']]",
     "url": "https://stage-docker-clinic.medzoom.ru/*",
     "value": "%s7@%s5.kg"
   },
@@ -429,5 +429,38 @@
     "xpath": "//section[contains(@class,'related-person-tab')]//fieldset[descendant::h3[normalize-space()='Документ']]//div[contains(@class,'typeahead__placeholder')][normalize-space()='Код подразделения']/ancestor::div[contains(@class,'typeahead__wrapper')][1]//input[contains(@class,'typeahead__input')]",
     "url": "",
     "value": "77002%d1"
+  },
+  {
+    "id": "div_hswkH",
+    "type": "divider",
+    "desc": "Вкладка \"Услуги\""
+  },
+  {
+    "id": "exSLJ",
+    "desc": "Наименование или код услуги",
+    "xpath": "mis-typeahead.nomenclature-typeahead .typeahead__input",
+    "url": "",
+    "value": "02-005"
+  },
+  {
+    "id": "pinwT",
+    "desc": "Откуда вы о нас узнали",
+    "xpath": "//of-open-choice//input[@role='combobox']",
+    "url": "",
+    "value": "Постоянный клиент"
+  },
+  {
+    "id": "5AyOG",
+    "desc": "Штрихкод",
+    "xpath": "input.barcode-input[placeholder=\"Штрих-код\"]",
+    "url": "",
+    "value": "%d16"
+  },
+  {
+    "id": "47aN2",
+    "desc": "Представитель. Дата рождения",
+    "xpath": "//div[contains(@class, 'modal-content')]//input[contains(@class, 'datepicker__input')]",
+    "url": "",
+    "value": "%date"
   }
 ]
